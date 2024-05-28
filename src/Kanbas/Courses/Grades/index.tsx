@@ -1,5 +1,17 @@
 import ModulesControls from "./MoudulesControls"
+import * as db from "../../Database"
+
 export default function Grades() {
+
+	const grades = db.grades
+	const users = db.users
+	
+	let a = "A101"
+	let b = "A102"
+	let c = "A201"
+	let d = "A202"
+	
+
 	return (
 		
 		<div>
@@ -37,25 +49,35 @@ export default function Grades() {
 
             <div id="wd-css-styling-tables">
 		  
-
+          {  
 		  <table className="table">
 		    <thead>
 		      <tr className="table-secondary">
 		      <th>Student Name</th>
-		      <th>A1 Setup<br />Out of 100</th>
-		      <th>A2 HTML<br />Out of 100</th>
-		      <th>A3 CSS<br />Out of 100</th>
-		      <th>A4 BOOTSTRAP<br />Out of 100</th></tr>
+		      <th>Assignment {a}</th>
+		      <th>Assignment {b}</th>
+		      <th>Assignment {c}</th>
+		      <th>Assignment {d}</th></tr>
 		    </thead>
 		    
+
+
+
+
+
 		    <tbody className="align-middle">
+
+		    {grades.map((grade)=>(
 		      <tr className="table-gray">
-		      	<td>Jane Adams</td>
-		      	<td className="align-middle">100%</td>
-		      	<td>96.67%</td>
-		      	<td>92.81%</td>
-		      	<td>66.22%</td>
-		      </tr>
+		      	<td>{grade.student}</td>
+		      	<td className="align-middle">{a==grade.assignment?grade.grade:"---"}</td>
+		      	<td>{b==grade.assignment?grade.grade:"---"}</td>
+		      	<td>{c==grade.assignment?grade.grade:"---"}</td>
+		      	<td>{d==grade.assignment?grade.grade:"---"}</td>
+
+		      </tr>)
+		      )}
+
 		      <tr className="table-secondary">
 		      	<td>Christina Allen</td>
 		      	<td>100%</td>
@@ -95,6 +117,7 @@ export default function Grades() {
 		    
 		    
 		  </table>
+		  }
 		  </div>
 
 
