@@ -5,38 +5,36 @@ import ModulesControls from "./MoudulesControls"
 import { LuBook } from "react-icons/lu";
 import { Routes, Route, Navigate,useParams, useLocation } from "react-router";
 import * as db from "../../Database"
-export default function Assignments() {
-	const { cid } = useParams()
-	console.log("Assignment aid = " + cid)
-	const assignments = db.assignments
-	console.log("Assignments is:" + assignments)
-	console.log(assignments)
-	const temp = "hello"
+import React, { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { addAssignment, editAssignment, updateAssignment, deleteAssignment } from "./reducer";
 
+
+export default function Assignments() {
+
+	const { cid } = useParams()
 	
+	
+	const [assignmentName, setAssignmentName] = useState("")
+	const { assignments } = useSelector((state: any) => state.assignmentsReducer)
+	const dispatch = useDispatch();
+	
+	console.log("In Assignment")
+	console.log("In /Assignment:Assignments aid = " + cid)
+	console.log("In /Assignment:Assignments is:" + JSON.stringify(assignments))
+	
+	
+
 	return ( 
 
 	<div id="wd-assignments"> 
-		{/*<div id="wd-float-divs">
-		<div className="wd-float-left wd-dimension-portrait">
-		<input id="wd-search-assignment" placeholder="Search for Assignments" /> 
-		</div>
-		<div className="wd-float-right ">
-		<button id="wd-add-assignment-group" className="btn btn-alert wd-color1">+Group</button> 
-		</div>
-		<div className="wd-float-right ">
-		<button id="wd-add-assignment" className="btn btn-primary">+Assignment</button> 
-		</div>
-		</div>*/}
+		
 		<ModulesControls />
 		<br /><br />	
 	
-	{/*-------------------------------------------------------------------*/}
-
-
-
-
-		<ul id="wd-modules1" className="list-group rounded-0 border" >		
+			
+		<ul id="wd-modules1" className="list-group rounded-0 border" >	
+			
 			<li className="wd-module list-group-item p-0 mb-5 fs-5 border-gray">
 				<div className="wd-title p-4 ps-1 bg-secondary">
 					<div className = "row">
@@ -57,131 +55,52 @@ export default function Assignments() {
 					</div>
 					</div>  
 				</div>
-
 			
 			
+			
 
-
-
-
-
-			<ul id="wd-assignment-list" className="wd-lessons list-group rounded-0">
-
-				
+				<ul id="wd-assignment-list" className="wd-lessons list-group rounded-0">				
 				{
-					assignments.filter((assignment)=>assignment.course===cid)
-					.map(assignment =>(
-					<li className="wd-lesson list-group-item p-3 ps-1">
-						<div className="row">
-							<div className = "col-sm">
-	  							<BsGripVertical className="me-2 fs-3 float-left" /> 
-	  						</div>
-	  						<div className = "col-sm">
-	  							<LuBook className="float-left"/>
-	  						</div>
-	  						<div className = "col-9">
-	  						
-	  						{	
-	  							<a className = "wd-assignment-link" 
-	  							   href={`#/Kanbas/Courses/${assignment.course}/Assignments/${assignment._id}`}>
-	  							   {assignment._id}-{assignment.title}</a>
-	  						}	
-	  							<p> <span style={{color:"red"}}> 
-	  						    Multiple Modules
-	  						    </span> | <b> Notavailable until</b> May 6 at 12:00am | <b>Due</b> May 13 at 11:59pm | 100pts</p>
-	  					    
+					assignments.filter((assignment:any)=>assignment.course===cid)
+					.map( (assignment:any) => (
+								
+								<li className="wd-lesson list-group-item p-3 ps-1">
+									<div className="row">
+										<div className = "col-sm">
+	  										<BsGripVertical className="me-2 	fs-3float-left" /> 
+	  									</div>
+	  									<div className = "col-sm">
+	  										<LuBook className="float-left"/>
+	  									</div>
+	  									<div className = "col-9">
+	  									
+	  									{	
+	  										<a className = "wd-assignment-link" 
+	  										   href={`#/KanbasCourses/${assignment.course}	/Assign		ments/${assignment._id}`}>
+	  										   {assignment._id}-{assignment.title}</a>
+	  									}	
+	  										<p> <span style={{color:"red"}}> 
+	  									    Multiple Modules
+	  									    </span> | <b> Notavailable until</b> May6 at 	12:00am 			| <b>Due</b> May13 at 	11:59pm | 100pts</p>
+	  								    
+			
+	  									</div>
+			
+	  									<div className = "col-1">
+	   									<LessonControlButtons  />
+	   									</div>
+									</div>
+     							</li>
+     							))
+				}    			
+				</ul> 
+		
 
-	  						</div>
-
-	  						<div className = "col-1">
-	   						<LessonControlButtons  />
-	   						</div>
-						</div>
-     				</li>))
-				}
-{/*
-	  			<li className="wd-lesson list-group-item p-3 ps-1">
-	  				<div className="row">
-	  					<div className = "col-sm">
-	  						<BsGripVertical className="me-2 fs-3 float-left" /> 
-	  					</div>
-	  					<div className = "col-sm">
-	  						<LuBook className="float-left"/>
-	  					</div>
-	  					<div className = "col-9">
-	  						<a className="wd-assignment-link" href="#/Kanbas/Courses/1234/Assignments/123">A1</a>	  				
-	  						<p> <span style={{color:"red"}}> 
-	  						    Multiple Modules
-	  						    </span> | <b> Notavailable until</b> May 6 at 12:00am | <b>Due</b> May 13 at 11:59pm | 100pts</p>	   	
-	   					</div>
-	   					<div className = "col-1">
-	   					<LessonControlButtons  />
-	   					</div>
-	   				</div>
-    			</li>
-
-    			<li className="wd-lesson list-group-item p-3 ps-1">
-	  				<div className="row">
-	  					<div className = "col-sm">
-	  						<BsGripVertical className="me-2 fs-3 float-left" /> 
-	  					</div>
-	  					<div className = "col-sm">
-	  						<LuBook className="float-left"/>
-	  					</div>
-	  					<div className = "col-9">
-	  						<a className="wd-assignment-link" href="#/Kanbas/Courses/1234/Assignments/123">A2</a>	  				
-	  						<p> <span style={{color:"red"}}> 
-	  						    Multiple Modules
-	  						    </span> | <b> Notavailable until</b> May 6 at 12:00am | <b>Due</b> May 13 at 11:59pm | 100pts</p>	   	
-	   					</div>
-	   					<div className = "col-1">
-	   					<LessonControlButtons  />
-	   					</div>
-	   				</div>
-    			</li>
-
-    			<li className="wd-lesson list-group-item p-3 ps-1">
-	  				<div className="row">
-	  					<div className = "col-sm">
-	  						<BsGripVertical className="me-2 fs-3 float-left" /> 
-	  					</div>
-	  					<div className = "col-sm">
-	  						<LuBook className="float-left"/>
-	  					</div>
-	  					<div className = "col-9">
-	  						<a className="wd-assignment-link" href="#/Kanbas/Courses/1234/Assignments/123">A3</a>	  				
-	  						<p> <span style={{color:"red"}}> 
-	  						    Multiple Modules
-	  						    </span> | <b> Notavailable until</b> May 6 at 12:00am | <b>Due</b> May 13 at 11:59pm | 100pts</p>	   	
-	   					</div>
-	   					<div className = "col-1">
-	   					<LessonControlButtons  />
-	   					</div>
-	   				</div>
-    			</li>
-*/}
+			</li>
+		</ul> 	
 
 
 
+    </div>
 
-
-
-    		
-
-    		
-			</ul> 
-		</li>
-	</ul> 	
-
-
-
-    {/* why they put the route all in Course index?????  
-	<div id="myClassRoute">
-		<Routes>
-			<Route path="">
-		</Routes>
-	</div>*/}
-    {/* Complete On Your Own */}  </div>
-
-    );
-}
+);}

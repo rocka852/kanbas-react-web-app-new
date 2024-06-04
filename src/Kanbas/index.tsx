@@ -1,10 +1,15 @@
 import KanbasNavigation from "./Navigation";
 import { Routes, Route, Navigate } from "react-router";
 import Dashboard from "./Dashboard";
+import Inbox from "./Inbox"
 import Courses from "./Courses";
 import "./styles.css"
 import * as db from "./Database";
 import { useState } from "react";
+import store from "./store";
+import { Provider } from "react-redux";
+import AssignmentEditor from "./Courses/Assignments/Editor"
+
 
 export default function Kanbas() {
 
@@ -32,32 +37,39 @@ export default function Kanbas() {
   	};
 
 	return(
-	  <div id="wd-kanbas" className="h-100">
-	    <div className="d-flex h-100">
-	      <div className="d-none d-md-block bg-black">	
-	      {/*default hide navigation bar
-	         when screen reach coorespoding size show*/}        
-	          <KanbasNavigation />
-	      </div>
+    <Provider store={store}>
+	     <div id="wd-kanbas" className="h-100">
+	       <div className="d-flex h-100">
+	         <div className="d-none d-md-block bg-black">	
+	         {/*default hide navigation bar
+	            when screen reach coorespoding size show*/}        
+	             <KanbasNavigation />
+	         </div>
+    
+	         <div className="flex-fill p-4">	       
+	             <Routes>
+	               <Route path ="/" element={<Navigate to ="Dashboard" />} />
+	               <Route path = "Account" element = {<h1>Account</h1>} />
+	               <Route path = "Dashboard" 
+	               	element={<Dashboard courses={courses}
+	               						          course={course}
+                  							      setCourse={setCourse}
+                  							      addNewCourse={addNewCourse}
+                  							      deleteCourse={deleteCourse}
+                  							      updateCourse={updateCourse} />
+	               						} />	            
+	              	<Route path = "Courses/:cid/*" 
+	              		   element={<Courses courses={courses} />} />
+                  <Route path = "Inbox" 
+                         element = {<Inbox />} />
+                  <Route path = "Courses/:cid/Assignments/:aid" 
+                         element = {<AssignmentEditor/>} />
 
-	      <div className="flex-fill p-4">	       
-	          <Routes>
-	            <Route path ="/" element={<Navigate to ="Dashboard" />} />
-	            <Route path = "Account" element = {<h1>Account</h1>} />
-	            <Route path = "Dashboard" 
-	            	element={<Dashboard courses={courses}
-	            						course={course}
-              							setCourse={setCourse}
-              							addNewCourse={addNewCourse}
-              							deleteCourse={deleteCourse}
-              							updateCourse={updateCourse} />
-	            						} />	            
-	           	<Route path = "Courses/:cid/*" 
-	           		   element={<Courses courses={courses} />} />
-
-	    	  </Routes>
-	      </div>	    
-	    </div>
-	  </div>
+    
+	       	  </Routes>
+	         </div>	    
+	       </div>
+	     </div>
+    </Provider>
 	);
 }
