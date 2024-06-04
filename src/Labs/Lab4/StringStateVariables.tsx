@@ -4,10 +4,10 @@ export default function StringStateVariables() {
   return (
     <div>
       <h2>String State Variables</h2>
-      <p>{firstName}</p>
+      <p className="ms-2">{firstName}</p>
       <input
         className="form-control"
-        value={firstName}
+        value={firstName} 
         onChange={(e) => setFirstName(e.target.value)}/>
       <hr/>
     </div>

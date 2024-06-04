@@ -1,17 +1,31 @@
 import * as db from "../../Database"
 import { Routes, Route, Navigate,useParams, useLocation } from "react-router";
+import { useSelector, useDispatch } from "react-redux";
+import { addAssignment } from "./reducer";
+import React, { useState } from "react";
+import { Link} from "react-router-dom";
+export default function AssignmentEditor(
 
-
-
-export default function AssignmentEditor() {
-  const { aid } = useParams()
+) {
+  const { aid,cid } = useParams()
   console.log("Assignment Editor aid = " + aid)
-  const assignments = db.assignments
+  const assignments1 = db.assignments
+  let newPage = (aid == "New Assignment")
+  const { assignments } = useSelector((state: any) => state.assignmentsReducer);
 
+  const [aName, setAName] = useState(aid)
+  const [aDes, setADes] = useState("New description")
+  const [aPoint, setAPoint] = useState("100")
+  const [aDue, setADue] = useState("2024-05-13")
+  const [ava, setAva] = useState("2024-05-06")
+  const [aun, setAun] = useState("2024-06-24")
+  const dispatch = useDispatch();
   return ( 
+      
       <div id="wd-assignments-editor">
       {
-          assignments.filter((assignment)=>assignment._id === aid)
+        
+          assignments1.filter((assignment)=>assignment._id === aid)
                  .map((assignment)=> (
 
          
@@ -29,7 +43,29 @@ export default function AssignmentEditor() {
       
               </textarea> 
            </div>))
+   
       }
+      
+
+      {
+          newPage &&
+          <div className="mb-3">
+            <label htmlFor="wd-name" className="form-label">Assignment Name</label>
+
+       
+            <input id="wd-name" className ="form-control" value={aName} 
+                   onChange={(e)=>setAName(e.target.value)}/>      
+            <br />
+
+            <textarea id="wd-description" className="form-control" rows={7} value={aDes} onChange={(e)=>setADes(e.target.value)}> 
+      
+              {aDes}
+      
+              </textarea> 
+           </div>        
+        
+      } 
+      
 
 
       <br /> 
@@ -41,7 +77,8 @@ export default function AssignmentEditor() {
              </label> 
            
             <div className="col-sm-10">
-              <input id="wd-points" type="text" className="form-control" value="100" />
+              <input id="wd-points" type="text" className="form-control" value={aPoint} 
+               onChange = {(e)=>setAPoint(e.target.value)}/>
             </div> 
         </div>
 
@@ -156,21 +193,34 @@ export default function AssignmentEditor() {
                </div>
 
               <h5>Due</h5>
-              <input type="date" className="form-control" value="2024-05-13"/>
+              <input type="date" className="form-control" value={aDue} 
+               onChange={(e)=>setADue(e.target.value)}/>
 
 
               <div className="row">
                 <div className="col-6">
                 <label htmlFor="wd-available-from"> Available from: </label> 
-                <input type="date" id="wd-available-from" className="form-control" value="2024-05-06"/>
+                <input type="date" id="wd-available-from" className="form-control" value={ava} onChange={(e)=>setAva(e.target.value)}/>
                 </div>
                 <div className="col-6">
                 <label htmlFor="wd-available-from">Until: </label> 
-                <input type="date" id="wd-available-from" className="form-control" value="2024-05-06"/>
+                <input type="date" id="wd-available-from" className="form-control" value={aun} onChange={(e)=>setAun(e.target.value)}/>
                 </div>
               </div>
-              <button id="wd-all-good"  className = "btn btn-primary me-1 float-end"> Save </button>
-              <button id="wd-all-good"  className = "btn btn-primary me-1 float-end"> Cancel </button>
+              <Link key="mylink" to={"/Kanbas/Courses/RS101/Assignments"}>
+              <button id="wd-all-good"  className = "btn btn-primary me-1 float-end" 
+                      onClick={()=> {
+                            dispatch(addAssignment({ _id: aName, course:cid, title:aDes, points:aPoint}))
+
+                            alert("your file is updated\n" + "Point: " + aPoint + "\nDue: " + aDue + "\nAvailable: " + ava + "\nUntil: " + aun)
+                      }}
+              > Save </button>
+              </Link>
+
+              <Link key="mylink" to={"/Kanbas/Courses/RS101/Assignments"}>
+              <button id="wd-all-good"  className = "btn btn-primary me-1 float-end" 
+              > Cancel </button>
+              </Link>
             </div> 
         </div>
 

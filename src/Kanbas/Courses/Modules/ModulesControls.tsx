@@ -3,8 +3,10 @@ import GreenCheckmark from "./GreenCheckmark";
 import ModuleEditor from "./ModuleEditor"
 
 export default function ModulesControls(
+
     { moduleName, setModuleName, addModule }:
     { moduleName: string; setModuleName: (title: string) => void; addModule: () => void; }
+
 ) 
 
 {

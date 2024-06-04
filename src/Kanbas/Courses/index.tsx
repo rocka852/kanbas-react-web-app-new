@@ -9,6 +9,7 @@ import Home from "./Home"
 import Grades from "./Grades"
 import Assignments from "./Assignments";
 import AssignmentEditor from "./Assignments/Editor";
+import { useSelector, useDispatch } from "react-redux";
 
 
 export default function Courses({courses}:{courses:any[];}) { 
@@ -19,6 +20,10 @@ export default function Courses({courses}:{courses:any[];}) {
    const course = courses.find((course) => course._id === cid)
    console.log(course)
    const { pathname } = useLocation();
+
+
+   
+
    
    
 
@@ -42,7 +47,23 @@ export default function Courses({courses}:{courses:any[];}) {
 	           <Route path="Home" element={<Home />} />
 	           <Route path="Modules" element={<Modules />} />
 	           <Route path="Assignments" element={<Assignments />} />
-	           <Route path="Assignments/:aid" element={<AssignmentEditor />} />
+	           
+              
+             <Route path="Assignments/:aid" element={<AssignmentEditor />}/>
+                                                      
+              {/*
+              assignmentName={assignmentName} 
+                                                      setAssignmentName={setAssignmentName} 
+                                                      assignmentTitle={assignmentTitle} 
+                                                      setAssignmentTitle={setAssignmentTitle} 
+                                                      
+                                                      addAssignment= {()=>{
+                                                       dispatch(addAssignment({course: cid, _id: assignmentName,                                  title: assignmentTitle})) 
+                                                      setAssignmentName("")}}/>} />
+              
+               */}
+
+
 	           <Route path="Grades" element = {<Grades />} />
 	           </Routes>
 	        </div>

@@ -57,14 +57,12 @@ export default function Kanbas() {
                   							      addNewCourse={addNewCourse}
                   							      deleteCourse={deleteCourse}
                   							      updateCourse={updateCourse} />
-	               						} />	            
+	               						} />	 
+                            
 	              	<Route path = "Courses/:cid/*" 
 	              		   element={<Courses courses={courses} />} />
                   <Route path = "Inbox" 
                          element = {<Inbox />} />
-                  <Route path = "Courses/:cid/Assignments/:aid" 
-                         element = {<AssignmentEditor/>} />
-
     
 	       	  </Routes>
 	         </div>	    

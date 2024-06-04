@@ -8,6 +8,7 @@ import * as db from "../../Database"
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { addAssignment, editAssignment, updateAssignment, deleteAssignment } from "./reducer";
+import AssignmentEditor from "./Editor"
 
 
 export default function Assignments() {
@@ -15,7 +16,10 @@ export default function Assignments() {
 	const { cid } = useParams()
 	
 	
-	const [assignmentName, setAssignmentName] = useState("")
+	const [assignmentName, setAssignmentName] = useState("New Assignment")
+	const [assignmentTitle, setAssignmentTitle] = useState("New Assignment Description")
+	const [assignmentPoints, setAssignmentPoints] = useState("100")
+	
 	const { assignments } = useSelector((state: any) => state.assignmentsReducer)
 	const dispatch = useDispatch();
 	
@@ -29,7 +33,8 @@ export default function Assignments() {
 
 	<div id="wd-assignments"> 
 		
-		<ModulesControls />
+		<ModulesControls assignmentName={assignmentName}/>
+
 		<br /><br />	
 	
 			
@@ -51,7 +56,17 @@ export default function Assignments() {
 					 + 
 					</div>
 					<div className = "col-sm">
-					 <LessonControlButtons  />
+					 <LessonControlButtons 
+assignmentId={"none"} 
+                                              deleteAssignment= {(assignmentId) => {
+                                                              dispatch(deleteAssignment(assignmentId));
+                                                            }
+                                                  }
+
+                                              editAssignment= {(assignmentId) => 
+                                                  dispatch(editAssignment(assignmentId))
+                                                  }
+					  />
 					</div>
 					</div>  
 				</div>
@@ -76,18 +91,28 @@ export default function Assignments() {
 	  									
 	  									{	
 	  										<a className = "wd-assignment-link" 
-	  										   href={`#/KanbasCourses/${assignment.course}	/Assign		ments/${assignment._id}`}>
+	  										   href={`#/Kanbas/Courses/${assignment.course}	/Assign		ments/${assignment._id}`}>
 	  										   {assignment._id}-{assignment.title}</a>
 	  									}	
 	  										<p> <span style={{color:"red"}}> 
 	  									    Multiple Modules
-	  									    </span> | <b> Notavailable until</b> May6 at 	12:00am 			| <b>Due</b> May13 at 	11:59pm | 100pts</p>
+	  									    </span> | <b> Notavailable until</b> May6 at 	12:00am 			| <b>Due</b> May13 at 	11:59pm | {100}pts</p>
 	  								    
 			
 	  									</div>
 			
 	  									<div className = "col-1">
-	   									<LessonControlButtons  />
+	   									<LessonControlButtons 
+assignmentId={assignment._id} 
+                                              deleteAssignment= {(assignmentId) => {
+                                                              dispatch(deleteAssignment(assignmentId));
+                                                            }
+                                                  }
+
+                                              editAssignment= {(assignmentId) => 
+                                                  dispatch(editAssignment(assignmentId))
+                                                  }
+	   									 />
 	   									</div>
 									</div>
      							</li>
@@ -98,6 +123,8 @@ export default function Assignments() {
 
 			</li>
 		</ul> 	
+
+		
 
 
 

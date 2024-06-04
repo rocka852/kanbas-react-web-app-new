@@ -9,13 +9,15 @@ export default function Counter() {
       <button
         //onClick={() => { count++; console.log(count); }}
         onClick={() => setCount(count+1)}
-        id="wd-counter-up-click">
+        id="wd-counter-up-click"
+        className="btn btn-success ms-2">
         Up
       </button>
       <button
         //onClick={() => { count--; console.log(count); }}
         onClick={()=> setCount(count-1)}
-        id="wd-counter-down-click">
+        id="wd-counter-down-click" 
+        className="btn btn-danger ms-2">
         Down
       </button>
       <hr/>

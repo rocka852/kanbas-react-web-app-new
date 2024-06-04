@@ -16,7 +16,7 @@ const modulesSlice = createSlice({
         	name: module.name,
         	course: module.course,
       		};
-      	state.modules = [...state.modules, newModule] as any;
+      	   state.modules = [...state.modules, newModule] as any;
     	},
     
     	deleteModule: (state, { payload: moduleId }) => {
