@@ -1,14 +1,23 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { modules } from "../../Database";
+//import { modules } from "../../Database";
+{/*modified from A5 removve previous line*/}
 
+{/*
 const initialState = {
   	modules: modules,
-};
+};*/}
+const initialState = {modules: []}
 
 const modulesSlice = createSlice({
 	name: "modules",
   	initialState,
+    
   	reducers: {
+
+      setModules: (state, action) => {
+        state.modules = action.payload
+      }, /*added from A5, you can not have {} here otherwise an error*/
+         
     	addModule: (state, { payload: module }) => {
       		const newModule: any = {
         	_id: new Date().getTime().toString(),
@@ -38,6 +47,6 @@ const modulesSlice = createSlice({
   },
 });
 
-export const { addModule, deleteModule, updateModule, editModule } =
+export const { addModule, deleteModule, updateModule, editModule, setModules } =
   modulesSlice.actions;
 export default modulesSlice.reducer;
