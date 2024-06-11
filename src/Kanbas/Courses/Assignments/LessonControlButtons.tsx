@@ -13,7 +13,7 @@ export default function LessonControlButtons(
   return (
     <div className="float-end">
       <FaPencil onClick={() => editAssignment(assignmentId)} 
-  	  	 		  className="text-primary me-3" />
+  	  	 		    className="text-primary me-3" />
 
   	  <FaTrash className="text-danger me-2 mb-1" 
   	  			 onClick={() => deleteAssignment(assignmentId)} />
