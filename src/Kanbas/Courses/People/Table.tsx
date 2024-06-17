@@ -1,8 +1,13 @@
+
 import React, {useState, useEffect} from "react"
 import * as client from "./client"
+import Details from "./Details"
+import {Link} from "react-router-dom"
+import {useParams} from "react-router"
+import {FaUserCircle} from "react-icons/fa"
 
 export default function PeopleTable() {
-	//const {cid} = useParams()
+	const {cid, uid} = useParams()
 	const [users, setUsers] = useState<any[]>([])
 	const [role, setRole] = useState("")
 	const [name, setName] = useState("")
@@ -47,9 +52,11 @@ export default function PeopleTable() {
 		  	        className="form-select float-start w-25">
 		  	    <option value="">All Roles</option>
 		  	    <option value="STUDENT">Students</option>
-		  	    <option value="USER">Assistants</option>
+		  	    <option value="ASSISTANT">Assistants</option>
 		  	    <option value="FACULTY">Faculty</option>
 		  	</select>
+
+		  	<Details fetchUsers={fetchUsers}/>
 
 		  	
 
@@ -64,7 +71,17 @@ export default function PeopleTable() {
 				<tbody>
 					{users.map((user:any) => (
 						<tr key= {user._id}>
-							<td className="text-nowrap"> {user.firstName} {user.lastName}
+							<td className="text-nowrap text-danger"
+								> 
+
+								<Link to={`/Kanbas/Courses/${cid}/People/${user._id}`}
+								      className="btn text-nowrap text-danger">
+								{/*if you use uid here, uid will be undefined and node will crush*/}
+
+								<FaUserCircle className="text-secondary me-2 fs-1"/>
+								{user.firstName} {user.lastName}
+								</Link>
+								
 							</td>
 							<td>{user.username}</td>
 							<td>{user.section || "RS101"}</td>
