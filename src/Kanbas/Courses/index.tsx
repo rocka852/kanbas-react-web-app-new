@@ -10,6 +10,7 @@ import Grades from "./Grades"
 import Assignments from "./Assignments";
 import AssignmentEditor from "./Assignments/Editor";
 import { useSelector, useDispatch } from "react-redux";
+import PeopleTable from "./People/Table"
 
 
 export default function Courses({courses}:{courses:any[];}) { 
@@ -65,6 +66,7 @@ export default function Courses({courses}:{courses:any[];}) {
 
 
 	           <Route path="Grades" element = {<Grades />} />
+             <Route path="People" element = {<PeopleTable/>} />
 	           </Routes>
 	        </div>
 	     </div>

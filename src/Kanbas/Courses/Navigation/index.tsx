@@ -10,7 +10,7 @@ export default function CoursesNavigation({a}:{a:ReactNode}) {
     */}
 
 
-    const links = ["Home", "Modules", "Piazza", "Zoom", "Assignments", "Quizzes", "Grades"];
+    const links = ["Home", "Modules", "Piazza", "Zoom", "Assignments", "Quizzes", "Grades", "People"];
     let temp = false
     const { id } = useParams();
     console.log("in test id= " + id)
