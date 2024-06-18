@@ -1,6 +1,11 @@
 import {Link, useLocation, useParams} from "react-router-dom"
+import {useSelector} from "react-redux"
 export default function AccountNavigation() {
-	const links = ["Signin", "Signup", "Profile"]
+	const {currentUser} = useSelector((state:any) => state.accountReducer)
+	//const links = ["Signin", "Signup", "Profile"]
+	//alert(currentUser)
+	console.log("In navigation: " + JSON.stringify(currentUser))
+	const links = currentUser ? ["Profile"] : ["Signin", "Signup"]
 	const {pathname} = useLocation()
 
 	return(

@@ -1,13 +1,19 @@
 import * as client from "./client";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { setCurrentUser } from "./reducer";
+import Session from "./Session"
 
 export default function Profile() {
   const [profile, setProfile] = useState<any>({});
   const navigate = useNavigate();
+  const dispatch = useDispatch()
+
   const fetchProfile = async () => {
     try{
       const account = await client.profile();
+      
       setProfile(account);
     }
     catch(err:any) {
@@ -17,6 +23,7 @@ export default function Profile() {
   };
   const signout = async()=> {
     await client.signout()
+    dispatch(setCurrentUser(null))
     navigate("/Kanbas/Account/Signin")
   }
   useEffect(() => { fetchProfile(); }, []);
@@ -25,6 +32,7 @@ export default function Profile() {
       <h1>Profile</h1>
       {profile && (
           <div>
+
               <input value={profile.username} 
                      className = "form-control mb-2"
                      onChange={(e) => setProfile({ ...profile, username:  e.target.value })}/>

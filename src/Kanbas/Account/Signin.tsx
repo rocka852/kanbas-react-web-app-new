@@ -8,16 +8,16 @@ export default function Signin() {
 	const [error, setError] = useState("")
 	const [credentials, setCredentials] = useState<any>({})
 	const navigate = useNavigate()
-	//const dispatch = useDispatch()
+	const dispatch = useDispatch()
 	const signin = async() =>{
-		try{
+		//try{
 			const currentUser = await client.signin(credentials)
-			//dispatch(setCurrentUser(currentUser))
+			dispatch(setCurrentUser(currentUser))
 			navigate("/Kanbas/Account/Profile")
-		}
-		catch (err:any) {
-			setError(err.response.data.message)
-		}
+		//}
+		//catch (err:any) {
+			//setError(err.response.data.message)
+		//}
 		
 	}
 
