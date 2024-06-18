@@ -10,7 +10,7 @@ import store from "./store";
 import { Provider } from "react-redux";
 import AssignmentEditor from "./Courses/Assignments/Editor"
 import Account from "./Account"
-
+import ProtectedRoute from "./ProtectedRoute"
 import * as client from "./Courses/client"
 {/*Added from a5 
   if you have import after this comment it will report error import in body
@@ -108,16 +108,18 @@ export default function Kanbas() {
 	               <Route path ="/" element={<Navigate to ="Dashboard" />} />
 	               <Route path = "/Account/*" element = {<Account/>} />
 	               <Route path = "Dashboard" 
-	               	element={<Dashboard courses={courses}
+	               	element={<ProtectedRoute>
+                  <Dashboard courses={courses}
 	               						          course={course}
                   							      setCourse={setCourse}
                   							      addNewCourse={addNewCourse}
                   							      deleteCourse={deleteCourse}
                   							      updateCourse={updateCourse} />
+                                      </ProtectedRoute>
 	               						} />	 
                             
 	              	<Route path = "Courses/:cid/*" 
-	              		   element={<Courses courses={courses} />} />
+	              		   element={<ProtectedRoute><Courses courses={courses} /></ProtectedRoute>} />
                   <Route path = "Inbox" 
                          element = {<Inbox />} />
     
