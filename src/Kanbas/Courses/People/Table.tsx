@@ -4,7 +4,7 @@ import * as client from "./client"
 import Details from "./Details"
 import {Link} from "react-router-dom"
 import {useParams} from "react-router"
-import {FaUserCircle} from "react-icons/fa"
+import {FaUserCircle, FaPlus} from "react-icons/fa"
 
 export default function PeopleTable() {
 	const {cid, uid} = useParams()
@@ -34,6 +34,18 @@ export default function PeopleTable() {
 		}
 	}
 
+	const createUser = async() => {
+		const user = await client.createUser({
+			firstName: "New",
+			lastName: `User${users.length + 1}`,
+			username: `newuser${Date.now()}`,
+			password: "password123",
+			section: "S101",
+			role:"STUDENT",
+		})
+		setUsers([...users, user])
+	}
+
 	const fetchUsers = async() => {
 		const users = await client.findAllUsers()
 		setUsers(users)
@@ -44,6 +56,11 @@ export default function PeopleTable() {
 
 	return (
 		<div id="wd-people-tatle">
+			<button onClick = {createUser} 
+			        className="float-end btn btn-danger">
+			        <FaPlus className="me=2"/>
+			        People
+			</button>
 			<input onChange={e=>filterUsersByName(e.target.value)}
 		  	       placeholder="Search people"
 		  	       className="form-control float-start w-25 me-2"/>
