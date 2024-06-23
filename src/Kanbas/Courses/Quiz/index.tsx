@@ -10,11 +10,12 @@ import * as client from "./client"
 
 export default function Quiz() {
 	
-	const { quizes } = useSelector((state:any) => state.quizReducer)
+	//const { quizes } = useSelector((state:any) => state.quizReducer) file deleted
 	const cid = "RS101"
 
-	const [quiz, setQuiz] = useState<any[]>([])
+	const [quizes, setQuiz] = useState<any[]>([])
 
+	
 	const fetchQuiz = async() => {
 		const quizes = await client.findAllQuiz()
 		setQuiz(quizes)
@@ -50,7 +51,7 @@ export default function Quiz() {
 
 			<hr />
 			<h1>Test</h1>
-			{JSON.stringify(quiz)}
+			{JSON.stringify(quizes)}
 			{/*use quiz will report error says quiz is not a react child*/}
 
 

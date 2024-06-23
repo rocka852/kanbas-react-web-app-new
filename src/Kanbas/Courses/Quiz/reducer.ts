@@ -1,16 +1,16 @@
 import { createSlice} from "@reduxjs/toolkit";
 
-//delete later
-import { quizes } from "../../Database";
+/*delete later 
+//quiz removed from frontend database
 const initialState = {
 	quizes: quizes
 }
-//delete later
+delete later*/
 
-/* for backend later
+
 const initialState = {
 	quizes: [],
-};*/
+};
 // quizes is [state]
 
 
