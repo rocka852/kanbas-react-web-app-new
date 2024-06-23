@@ -1,15 +1,28 @@
 import { useSelector, useDispatch } from "react-redux"; 
+import React, { useState, useEffect } from "react"
 //app level state
 //useDispath calls the setState functions saved in reducer imported above 
 
 
 
 import { GoTriangleDown } from "react-icons/go";
+import * as client from "./client"
 
 export default function Quiz() {
 	
 	const { quizes } = useSelector((state:any) => state.quizReducer)
 	const cid = "RS101"
+
+	const [quiz, setQuiz] = useState<any[]>([])
+
+	const fetchQuiz = async() => {
+		const quizes = await client.findAllQuiz()
+		setQuiz(quizes)
+	}
+	useEffect(() => {
+		fetchQuiz()
+	},[])
+
 	return(
 		<div>
 			<hr />
@@ -34,6 +47,11 @@ export default function Quiz() {
 				}
 				</ul>
 			</div>
+
+			<hr />
+			<h1>Test</h1>
+			{JSON.stringify(quiz)}
+			{/*use quiz will report error says quiz is not a react child*/}
 
 
 		</div>
