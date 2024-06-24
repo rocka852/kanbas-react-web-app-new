@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react"
 import { useParams } from "react-router"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
+//navigate is a function, Link to is a tag
 import { useSelector, useDispatch } from "react-redux";
 //app level state is a part of useSelector
 //useDispath calls the setState functions saved in reducer imported above 
@@ -15,10 +16,11 @@ export default function Quiz() {
 	
 	//const { quizes } = useSelector((state:any) => state.quizReducer) file deleted
 
+	const navigate = useNavigate()
 	const { cid } = useParams() //RS101
 
 	const [quizes, setQuiz] = useState<any[]>([])
-
+	const [quizId, setQuizId] = useState("a")
 	
 	const fetchQuiz = async() => {
 		const quizes = await client.findAllQuiz()
@@ -26,20 +28,20 @@ export default function Quiz() {
 	}
 	useEffect(() => {
 		fetchQuiz()
+		setQuizId(Date.now().toString())
 	},[])
 
 	return(
 		<div>
 			<div id="input-and-buttons">
-				<Link to={`add`}>
-					{/*this will append to ..RS101/Quizzes/...*/}
-					<button className="float-end btn btn-danger">
+				{/* When using Link this will append to ..RS101/Quizzes/...*/}
+				<button className="float-end btn btn-danger"
+					    onClick={() => navigate(`/Kanbas/Courses/${cid}/Quizzes/${quizId}`)}>
 						<FaPlus className="me-2 mt-1"/>
 						<h5 className="float-end mt-1 me-2">Quiz</h5>
-					</button>
-					<input className="form-control float-start w-50 mt-2 p-2"
-				       	   placeholder="Search for quiz"/>
-				</Link>
+				</button>
+				<input className="form-control float-start w-50 mt-2 p-2"
+				       placeholder="Search for quiz"/>
 			</div><br/><br/>
 			<hr/>
 
