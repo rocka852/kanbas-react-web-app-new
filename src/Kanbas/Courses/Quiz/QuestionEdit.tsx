@@ -4,14 +4,14 @@ import { Link } from "react-router-dom"
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { MdNotInterested } from "react-icons/md";
 
-export default function DetailEdit() {
+export default function QuestionEdit() {
 	const { pathname } = useLocation();
 	const { cid, qid } = useParams()
 	const point = 0
-
+	
 	return(
 		<div>
-			<h1>Detail Editor</h1>
+			<h1>Question Editor</h1>
 			<div id="header">
 				<button className="float-end p-2 ms-1 rounded border-0">
 					<BsThreeDotsVertical/>
@@ -27,12 +27,12 @@ export default function DetailEdit() {
 			<div>
 				<ul className="nav nav-pills">
 					<li className="nav-item">
-						<Link to={`/Kanbas/Courses/${cid}/Quizzes/${qid}/DetailEdit`}
+						<Link to={`/Kanbas/Courses/${cid}/Quizzes/${qid}/DetailEdit`} 
 						className={`nav-link ${pathname.includes("DetailEdit") ? "active" : ""}`}>Details</Link>
-
+						
 					</li>
 					<li className="nav-itme">
-						<Link to={`/Kanbas/Courses/${cid}/Quizzes/${qid}/Questions`}
+						<Link to={`/Kanbas/Courses/${cid}/Quizzes/${qid}/Questions`} 
 						className={`nav-link ${pathname.includes("Questions") ? "active" : ""}`}>Questions</Link>
 					</li>
 				</ul>

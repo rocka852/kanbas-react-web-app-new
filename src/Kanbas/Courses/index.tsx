@@ -12,7 +12,9 @@ import AssignmentEditor from "./Assignments/Editor";
 import Quiz from "./Quiz"
 import QuizEditor from "./Quiz/QuizEditor"
 import DetailEdit from "./Quiz/DetailEdit"
+import QuestionEdit from "./Quiz/QuestionEdit"
 import Preview from "./Quiz/Preview"
+
 
 import { useSelector, useDispatch } from "react-redux";
 import PeopleTable from "./People/Table"
@@ -72,6 +74,7 @@ export default function Courses({courses}:{courses:any[];}) {
             <Route path="Quizzes" element = {<Quiz/>} />
             <Route path="Quizzes/:qid" element={<QuizEditor/>}/>
             <Route path="Quizzes/:qid/DetailEdit" element={<DetailEdit/>}/>
+            <Route path="Quizzes/:qid/Questions" element={<QuestionEdit/>}/>
             <Route path="Quizzes/:qid/Preview" element={<Preview/>}/>
             {/*if you use Quiz, nothing will display in quizzes*/}
 	          <Route path="Grades" element = {<Grades />} />
