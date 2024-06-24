@@ -1,15 +1,14 @@
 import React, { useState, useEffect } from "react"
 import { useParams } from "react-router"
-import { Link, useNavigate } from "react-router-dom"
-//navigate is a function, Link to is a tag
+import { Link, useNavigate, Navigate } from "react-router-dom"
+//navigate is a function, Link to is a tag, Navigate to is a tag for Route
 import { useSelector, useDispatch } from "react-redux";
 //app level state is a part of useSelector
 //useDispath calls the setState functions saved in reducer imported above 
 
-
-
 import { GoTriangleDown } from "react-icons/go";
 import { FaPlus } from "react-icons/fa"
+import { BsThreeDotsVertical } from "react-icons/bs";
 import * as client from "./client"
 
 export default function Quiz() {
@@ -34,12 +33,16 @@ export default function Quiz() {
 	return(
 		<div>
 			<div id="input-and-buttons">
+				<button className="float-end p-2 ms-1 rounded">
+					<BsThreeDotsVertical/>
+				</button>
 				{/* When using Link this will append to ..RS101/Quizzes/...*/}
 				<button className="float-end btn btn-danger"
 					    onClick={() => navigate(`/Kanbas/Courses/${cid}/Quizzes/${quizId}`)}>
 						<FaPlus className="me-2 mt-1"/>
-						<h5 className="float-end mt-1 me-2">Quiz</h5>
+						<h6 className="float-end mt-1 me-2">Quiz</h6>
 				</button>
+
 				<input className="form-control float-start w-50 mt-2 p-2"
 				       placeholder="Search for quiz"/>
 			</div><br/><br/>
