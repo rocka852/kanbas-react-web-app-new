@@ -1,14 +1,19 @@
 import { useState } from "react"
 import { useLocation, useParams } from "react-router"
 import { Link, useNavigate } from "react-router-dom"
+import { useSelector,useDispatch } from "react-redux";
 
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { MdNotInterested } from "react-icons/md";
+
+import { setCurrentQuiz, addQuiz } from "./reducer"
+import * as client from "./client";
 
 export default function DetailEdit() {
 	const { pathname } = useLocation();
 	const { cid, qid } = useParams()
 	const navigate = useNavigate()
+	const dispatch = useDispatch()
 	const point = 0
 	/*
 	const [ quizName, setQuizName ] = useState("Unnamed Quiz")
@@ -24,18 +29,20 @@ export default function DetailEdit() {
 	const [ allowMultiple, setAllowMultiple] = useState(false)*/
 	const [ quizObject, setQuizObject] = useState<any>({
 		quizId:qid,
+		course:cid,
 		quizName:"",
 		instructions:"",
 		quizType:"",
 		assignmentGroup:"",
 		totalScore:"",
-		quizTime:"",
+		quizTime:"20",
 		quizDue:"",
 		available:"",
 		until:"",
 		shuffleAnswers:true,
 		timeLimit:true,
 		allowMultiple:false,
+		published:false,
 		viewResponses:"Always",
 		showCorrectAnswers:"Immediately",
 		oneQuestionAtATime:"Yes",
@@ -48,6 +55,20 @@ export default function DetailEdit() {
 		questions:[]
 	})
 
+	const { stateQuiz } = useSelector((state:any) => state.quizReducer)
+
+	const saveQuiz = async() => {
+		const currentQuiz = await client.createQuiz(quizObject)
+		dispatch(setCurrentQuiz(currentQuiz))
+		navigate(`/Kanbas/Courses/${cid}/Quizzes/${quizObject.quizId}`)
+	}
+
+	const publishQuiz = async() => {
+		quizObject.published = true
+		const currentQuiz = await client.createQuiz(quizObject)
+		dispatch(setCurrentQuiz(currentQuiz))
+		navigate(`/Kanbas/Courses/${cid}/Quizzes/`)
+    }
 
 	return(
 		<div>
@@ -251,13 +272,13 @@ export default function DetailEdit() {
 								     Cancle
 							 </button>
 							 <button className="btn btn-danger ms-3"
-				        		     onClick={()=>{
-				        		     navigate(`/Kanbas/Courses/${cid}/Quizzes/${qid}`)}}
+				        		     onClick={
+				        		     saveQuiz}
 				        		     >
 									 Save
 							</button>
 							<button className="btn btn-primary ms-3"
-				        		     onClick={()=>navigate(`/Kanbas/Courses/${cid}/Quizzes/`)}
+				        		     onClick={publishQuiz}
 				        		     >
 									 Save & Publish
 							</button>

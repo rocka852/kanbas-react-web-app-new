@@ -60,7 +60,7 @@ export default function Quiz() {
 			<div id="quizcontent">
 				<ul className = "list-group rounded-0">
 				{
-					quizes.filter((quiz:any) => quiz.course === cid)            //done
+					quizes.filter((quiz:any) => (quiz.course === cid && quiz.published))      
 					      .map((quiz: any) => (
 						       <li className="list-group-item p-3 border">
 						       {"hello " + quiz.content}
@@ -73,8 +73,8 @@ export default function Quiz() {
 			</div>
 
 			<hr />
-			<h1>Test</h1>
-			{JSON.stringify(quizes)}
+			{/*<h1>Test</h1>*/}
+			{/*JSON.stringify(quizes)*/}
 			{/*use quiz will report error says quiz is not a react child*/}
 
 
