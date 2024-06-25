@@ -22,6 +22,7 @@ export default function QuizEditor() {
 		quizType:"",
 		assignmentGroup:"",
 		totalScore:"",
+		NumOfQuestions:"",
 		quizTime:"20",
 		quizDue:"",
 		available:"",

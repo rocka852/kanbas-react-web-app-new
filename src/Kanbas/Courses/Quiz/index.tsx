@@ -9,6 +9,10 @@ import { useSelector, useDispatch } from "react-redux";
 import { GoTriangleDown } from "react-icons/go";
 import { FaPlus } from "react-icons/fa"
 import { BsThreeDotsVertical } from "react-icons/bs";
+import { GiRocketThruster } from "react-icons/gi";
+import { IoCheckmarkCircleSharp } from "react-icons/io5";
+
+
 import * as client from "./client"
 
 export default function Quiz() {
@@ -24,10 +28,11 @@ export default function Quiz() {
 	const fetchQuiz = async() => {
 		const quizes = await client.findAllQuiz()
 		setQuiz(quizes)
+		setQuizId(Date.now().toString())
 	}
 	useEffect(() => {
 		fetchQuiz()
-		setQuizId(Date.now().toString())
+		//setQuizId(Date.now().toString())
 	},[])
 
 	return(
@@ -54,7 +59,10 @@ export default function Quiz() {
 			     className="border-gray bg-secondary p-2 mt-2"
 			     >
 				<GoTriangleDown className = "float-start mt-3 ms-3"/>
-				<h4 className= "ms-4 mt-2">Assignment Quizzes</h4>
+					<h4 className= "ms-4 mt-2"
+					    >
+						Assignment Quizzes
+					</h4>
 			</div>
 			
 			<div id="quizcontent">
@@ -63,10 +71,24 @@ export default function Quiz() {
 					quizes.filter((quiz:any) => (quiz.course === cid && quiz.published))      
 					      .map((quiz: any) => (
 						       <li className="list-group-item p-3 border">
-						       {"hello " + quiz.content}
+						       		<div id="allcontentline">
+						       			<Link to={`/Kanbas/Courses/${cid}/Quizzes/${quiz.quizId}`}
+						       			      className="text-dark">
+						       			<GiRocketThruster className="text-success me-3 mt-3 float-start"/>
+						       			<div id="quizdescription" 
+						       			     className="float-start">
+						       			     <div className="row ms-2">
+						       				 	<h5>{quiz.quizName?  quiz.quizName : "Unnamed Quiz"}</h5>
+						       				 </div>	
+						       				 <div className="row ms-2">
+						       				 	{<h6><b>{quiz.available ? "Available: ": "Closed"}</b> {quiz.available} | <b>Due</b>: <span className="text-danger">{quiz.quizDue ? quiz.quizDue : "Multiple Dates"}</span> | {quiz.totalScore ? quiz.totalScore : 0} pts | {quiz.NumOfQuestions ? quiz.NumOfQuestions : 0} Questions</h6>}
+						       				 </div>
+						       			</div>
+						       			<BsThreeDotsVertical className="text-success float-end mt-3 me-2"/>
+						       			<IoCheckmarkCircleSharp className="text-success float-end mt-3 me-3"/>
+						       			</Link>
+						       		</div>
 						       </li>
-
-
 					       ))
 				}
 				</ul>
