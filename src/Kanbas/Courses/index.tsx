@@ -14,6 +14,7 @@ import QuizEditor from "./Quiz/QuizEditor"
 import DetailEdit from "./Quiz/DetailEdit"
 import QuestionEdit from "./Quiz/QuestionEdit"
 import Preview from "./Quiz/Preview"
+import QuestionEditorWindow from "./Quiz/QuestionEditorWindow"
 
 
 import { useSelector, useDispatch } from "react-redux";
@@ -75,6 +76,7 @@ export default function Courses({courses}:{courses:any[];}) {
             <Route path="Quizzes/:qid" element={<QuizEditor/>}/>
             <Route path="Quizzes/:qid/DetailEdit" element={<DetailEdit/>}/>
             <Route path="Quizzes/:qid/Questions" element={<QuestionEdit/>}/>
+            <Route path="Quizzes/:qid/Questions/:wid" element={<QuestionEditorWindow/>}/>
             <Route path="Quizzes/:qid/Preview" element={<Preview/>}/>
             {/*if you use Quiz, nothing will display in quizzes*/}
 	          <Route path="Grades" element = {<Grades />} />
