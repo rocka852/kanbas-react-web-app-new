@@ -25,13 +25,13 @@ export default function QuestionEdit() {
 			<hr />
 
 			<div>
-				<ul className="nav nav-pills">
+				<ul className="nav nav-tabs">
 					<li className="nav-item">
 						<Link to={`/Kanbas/Courses/${cid}/Quizzes/${qid}/DetailEdit`} 
 						className={`nav-link ${pathname.includes("DetailEdit") ? "active" : ""}`}>Details</Link>
 						
 					</li>
-					<li className="nav-itme">
+					<li className="nav-item">
 						<Link to={`/Kanbas/Courses/${cid}/Quizzes/${qid}/Questions`} 
 						className={`nav-link ${pathname.includes("Questions") ? "active" : ""}`}>Questions</Link>
 					</li>

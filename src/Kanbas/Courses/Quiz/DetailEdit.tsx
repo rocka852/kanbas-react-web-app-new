@@ -1,5 +1,6 @@
+import { useState } from "react"
 import { useLocation, useParams } from "react-router"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { MdNotInterested } from "react-icons/md";
@@ -7,7 +8,22 @@ import { MdNotInterested } from "react-icons/md";
 export default function DetailEdit() {
 	const { pathname } = useLocation();
 	const { cid, qid } = useParams()
+	const navigate = useNavigate()
 	const point = 0
+
+	const [ quizName, setQuizName ] = useState("Unnamed Quiz")
+	const [ instructions, setInstructions ] = useState("")
+	const [ quizType, setQuizType ] = useState("Graded Quiz")
+	const [ assignmentGroup, setAssignmentGroup ] = useState("Quizzes")
+	const [ quizTime, setQuizTime ] = useState("20")
+	const [ quizDue, setDue ] = useState("2024-06-01")
+	const [ available, setAvailable] = useState("2024-05-01")
+	const [ until, setUntil] = useState("2024-06-01")
+	const [ shuffleAnswers, setShuffleAnswers] = useState(true)
+	const [ timeLimit, setTimeLimit] = useState(true)
+	const [ allowMultiple, setAllowMultiple] = useState(false)
+	const [ quizObject, setQuizObject] = useState({})
+
 
 	return(
 		<div>
@@ -24,18 +40,223 @@ export default function DetailEdit() {
 			</div><br/><br/>
 			<hr />
 
-			<div>
-				<ul className="nav nav-pills">
+			<div id="navgation-tabs">
+				<ul className="nav nav-tabs">
 					<li className="nav-item">
 						<Link to={`/Kanbas/Courses/${cid}/Quizzes/${qid}/DetailEdit`}
 						className={`nav-link ${pathname.includes("DetailEdit") ? "active" : ""}`}>Details</Link>
 
 					</li>
-					<li className="nav-itme">
+					<li className="nav-item">
 						<Link to={`/Kanbas/Courses/${cid}/Quizzes/${qid}/Questions`}
-						className={`nav-link ${pathname.includes("Questions") ? "active" : ""}`}>Questions</Link>
+						className={`text-danger nav-link ${pathname.includes("Questions") ? "active" : ""}`}>Questions</Link>
 					</li>
 				</ul>
+			</div>
+			<br/>
+
+			<div id="body">
+				<input className="form-control w-50"
+				       placeholder="Unnamed Quize"
+				       onChange={e=>setQuizName(e.target.value)}/>
+				<br/>
+				Quiz Instructions:
+				<textarea className="form-control"
+				          onChange={e=>setInstructions(e.target.value)}
+				/>
+				<br/>
+
+				
+				<div className="row mb-3">
+					<label htmlFor="r1"
+					       className="col-sm-3 col-form-label text-end">
+					       Quiz Type
+					</label>
+					<div className="col-sm-6">
+						<select className="form-select"
+					      	    id="r1"
+					      	    onChange={e=>setQuizType(e.target.value)}>
+					      	    <option value ="Graded Quiz" 
+					      	            selected
+					      	            >
+					      	            Graded Quiz
+					      	    </option>
+					      	    <option value="Practice Quiz"
+					      	            >
+					      	            Practice Quize
+					      	    </option>
+					      	    <option value="Graded Survey"
+					      	            >
+					      	            Graded Survey
+					      	    </option>
+					      	    <option value="Ungraded Survey"
+					      	            >
+					      	            Ungraded Survey
+					      	    </option>
+					    </select>
+					</div>
+			    </div>
+
+			    <div className="row mb-3">
+					<label htmlFor="r=2"
+					       className="col-sm-3 col-form-label text-end">
+					       Assignment Group
+					</label>
+					<div className="col-sm-6">
+						<select className="form-select"
+					      	    id="r2"
+					      	    onChange={e=>setAssignmentGroup(e.target.value)}>
+					      	    <option value ="Quizzes" 
+					      	            selected
+					      	            >
+					      	            Quizzes
+					      	    </option>
+					      	    <option value="Exams"
+					      	            >
+					      	            Exams
+					      	    </option>
+					      	    <option value="Assignment"
+					      	            >
+					      	            Assignment
+					      	    </option>
+					      	    <option value="Project"
+					      	            >
+					      	            Project
+					      	    </option>
+					    </select>
+					</div>
+			    </div>
+
+			    <div className = "row mb-3">
+			    	<div className = "col-sm-3">
+			    	</div>
+			    	<div className = "col-sm-9">
+			    		<h6><b> Options </b></h6>
+			    		<div className="form-check mt-2">
+			    			<input className="form-check-input"
+			    		       	   type="checkbox"
+			    		           defaultChecked={shuffleAnswers}
+			    		           onChange={e=>setShuffleAnswers(!shuffleAnswers)}
+			    		           id="checkbox1"/>
+			    			<label className="form-check-label"
+			    		           htmlFor="checkbox1"
+			    		           >
+			    		           Shuffle Answers
+			    		    </label>
+			    		</div>
+			    		<div className="form-check mt-2">
+			    			<input className="form-check-input"
+			    		           type="checkbox"
+			    		           value=""
+			    		           defaultChecked={timeLimit}
+			    		           onChange={e=>setTimeLimit(!timeLimit)}
+			    		           id="checkbox2"/>
+			    			<label className="form-check-label"
+			    		           htmlFor="checkbox2">
+			    		           Time Limit
+			    			</label>
+			    			<input className="ms-5 me-2"
+			    		           style={{width:"45px"}}
+			    		           placeholder = {quizTime}	
+			    		           onChange= {e=> setQuizTime(e.target.value)}/>
+			    			<label >
+			    			       Minutes
+			    		    </label>
+			    		    <div className="from-check mt-2">
+			    		    	<input className="form-check-input"
+			    		       	   type="checkbox"
+			    		           value=""
+			    		           defaultChecked={allowMultiple}
+			    		           onChange={e=>setAllowMultiple(!allowMultiple)}
+			    		           id="checkbox3"/>
+			    				<label className="form-check-label"
+			    		           htmlFor="checkbox3">
+			    		           Allow Multiple Attempts
+			    		        </label>
+			    		    </div>
+			    		</div>
+			    	</div>
+			    </div>
+
+			    <div className = "row mb-3">
+			    	<label htmlFor="r1"
+					       className="col-sm-3 col-form-label text-end mt-2">
+					       Assign
+					</label>
+					<div className = "col-sm-9">
+				    	<div className = "border mt-3 p-2">
+				    		<h6 className = "pt-3"><b> Assign to </b></h6>				<div className="input-group mb-3">
+	              				<span className="input-group-text">Everyone</span>
+	              				<span className="input-group-text">x</span>
+	              				<input type="text" className="form-control" />
+	               			</div>
+	
+					        
+					        <h6 className = "pt-3"><b> Due </b></h6>
+				    		<input className="form-control"
+				    		       type="date"
+					       		   value={quizDue}
+					       		   onChange={e=>setDue(e.target.value)}/>
+					        <div className="row">
+	                			<div className="col-6">
+	                				<label htmlFor="wd-available-from"
+	                				       > 
+	                				       Available from: 
+	                				</label> 
+	                				<input type="date" 
+	                				       id="wd-available-from" 
+	                				       className="form-control mb-2" 
+	                				       value={available} 
+	                				       onChange={(e)=>setAvailable(e.target.value)}/>
+	                			</div>
+	                			<div className="col-6">
+	                				<label htmlFor="wd-available-from"
+	                				       >
+	                				       Until: 
+	                				</label> 
+	                				<input type="date" id="wd-available-from" 	className="form-control" value={until} 	onChange={(e)=>setUntil(e.target.value)}/>
+	                			</div>
+	                		</div>			    		
+			    		</div>
+			    		<div id ="submit-buttons"
+			    		     className = "mt-2 d-flex justify-content-center">
+			    			 <button className="btn btn-light"
+				        			 onClick={()=>navigate(`/Kanbas/Courses/${cid}/Quizzes/`)}
+				        			 >
+								     Cancle
+							 </button>
+							 <button className="btn btn-danger ms-3"
+				        		     onClick={()=>{
+				        		     navigate(`/Kanbas/Courses/${cid}/Quizzes/${qid}`)}}
+				        		     >
+									 Save
+							</button>
+							<button className="btn btn-primary ms-3"
+				        		     onClick={()=>navigate(`/Kanbas/Courses/${cid}/Quizzes/`)}
+				        		     >
+									 Save & Publish
+							</button>
+			    		</div>
+			    	</div>
+			    	{<div>
+			    		<h1> Test </h1>
+			    		{quizName}<br/>
+			    		{instructions}<br/>
+			    		{quizType}<br/>
+			    		{assignmentGroup}<br/>
+			    		{quizTime}<br/>
+			    		{quizDue}<br/>
+			    		{available}<br/>
+			    		{until}<br/>
+			    		{JSON.stringify(shuffleAnswers)}<br/>
+			    		{JSON.stringify(timeLimit)}<br/>
+			    		{JSON.stringify(allowMultiple)}<br/>
+			    	 </div>}
+			    </div>
+
+			 
+
+
 			</div>
 		</div>
 	)
