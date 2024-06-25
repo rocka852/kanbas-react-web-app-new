@@ -1,15 +1,49 @@
+import {useState} from "react"
 import { useParams } from "react-router"
 import { useNavigate } from "react-router-dom"
+import { useDispatch } from "react-redux";
 
 import { TiPencil } from "react-icons/ti";
 
+import { setCurrentQuiz } from "./reducer"
+
 export default function QuizEditor() {
-	const { cid, qid } = useParams()
 	const navigate = useNavigate()
+	const dispatch = useDispatch()
+
+	const { cid, qid } = useParams()
+	const [ quizObject, setQuizObject] = useState<any>({
+		quizId:qid,
+		quizName:"",
+		instructions:"",
+		quizType:"",
+		assignmentGroup:"",
+		totalScore:"",
+		quizTime:"",
+		quizDue:"",
+		available:"",
+		until:"",
+		shuffleAnswers:true,
+		timeLimit:true,
+		allowMultiple:false,
+		viewResponses:"Always",
+		showCorrectAnswers:"Immediately",
+		oneQuestionAtATime:"Yes",
+		requireRespondusLockDown:"No",
+		browser:"",
+		requireToViewQuizResults:"No",
+		webCamRequired:"No",
+		lockQuestionsAfterAnswering:"No",
+		forEveryOne:"Everyone",
+		questions:[]
+	})
+
+
 	return (
 		<div>
 			<h1> Quiz Editor </h1>
-			{"This pages qid = " + qid}
+			{"This pages qid = " + qid}<br/>
+			{"QID from object = " + quizObject.quizId}
 			<hr />
 			<div id="two buttons"
 			     className="d-flex justify-content-center">
@@ -24,6 +58,10 @@ export default function QuizEditor() {
 				</button>
 			</div>
 			<hr />
+
+			<div id="quizinfo">
+
+			</div>
 		</div>
 	)
 }

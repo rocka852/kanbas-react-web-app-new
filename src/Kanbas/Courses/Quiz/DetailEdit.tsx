@@ -10,7 +10,7 @@ export default function DetailEdit() {
 	const { cid, qid } = useParams()
 	const navigate = useNavigate()
 	const point = 0
-
+	/*
 	const [ quizName, setQuizName ] = useState("Unnamed Quiz")
 	const [ instructions, setInstructions ] = useState("")
 	const [ quizType, setQuizType ] = useState("Graded Quiz")
@@ -21,8 +21,32 @@ export default function DetailEdit() {
 	const [ until, setUntil] = useState("2024-06-01")
 	const [ shuffleAnswers, setShuffleAnswers] = useState(true)
 	const [ timeLimit, setTimeLimit] = useState(true)
-	const [ allowMultiple, setAllowMultiple] = useState(false)
-	const [ quizObject, setQuizObject] = useState({})
+	const [ allowMultiple, setAllowMultiple] = useState(false)*/
+	const [ quizObject, setQuizObject] = useState<any>({
+		quizId:qid,
+		quizName:"",
+		instructions:"",
+		quizType:"",
+		assignmentGroup:"",
+		totalScore:"",
+		quizTime:"",
+		quizDue:"",
+		available:"",
+		until:"",
+		shuffleAnswers:true,
+		timeLimit:true,
+		allowMultiple:false,
+		viewResponses:"Always",
+		showCorrectAnswers:"Immediately",
+		oneQuestionAtATime:"Yes",
+		requireRespondusLockDown:"No",
+		browser:"",
+		requireToViewQuizResults:"No",
+		webCamRequired:"No",
+		lockQuestionsAfterAnswering:"No",
+		forEveryOne:"Everyone",
+		questions:[]
+	})
 
 
 	return(
@@ -58,11 +82,11 @@ export default function DetailEdit() {
 			<div id="body">
 				<input className="form-control w-50"
 				       placeholder="Unnamed Quize"
-				       onChange={e=>setQuizName(e.target.value)}/>
+				       onChange={e=>setQuizObject({...quizObject, quizName:e.target.value})}/>
 				<br/>
 				Quiz Instructions:
 				<textarea className="form-control"
-				          onChange={e=>setInstructions(e.target.value)}
+				          onChange={e=>setQuizObject({...quizObject, instructions:e.target.value})}
 				/>
 				<br/>
 
@@ -75,7 +99,7 @@ export default function DetailEdit() {
 					<div className="col-sm-6">
 						<select className="form-select"
 					      	    id="r1"
-					      	    onChange={e=>setQuizType(e.target.value)}>
+					      	    onChange={e=>setQuizObject({...quizObject, quizType:e.target.value})}>
 					      	    <option value ="Graded Quiz" 
 					      	            selected
 					      	            >
@@ -105,7 +129,7 @@ export default function DetailEdit() {
 					<div className="col-sm-6">
 						<select className="form-select"
 					      	    id="r2"
-					      	    onChange={e=>setAssignmentGroup(e.target.value)}>
+					      	    onChange={e=>setQuizObject({...quizObject, assignmentGroup:e.target.value})}>
 					      	    <option value ="Quizzes" 
 					      	            selected
 					      	            >
@@ -135,8 +159,9 @@ export default function DetailEdit() {
 			    		<div className="form-check mt-2">
 			    			<input className="form-check-input"
 			    		       	   type="checkbox"
-			    		           defaultChecked={shuffleAnswers}
-			    		           onChange={e=>setShuffleAnswers(!shuffleAnswers)}
+			    		           defaultChecked={quizObject.shuffleAnswers}
+			    		           onChange={(e)=>
+			    		                         setQuizObject({...quizObject, shuffleAnswers: !quizObject.shuffleAnswers})}
 			    		           id="checkbox1"/>
 			    			<label className="form-check-label"
 			    		           htmlFor="checkbox1"
@@ -148,8 +173,8 @@ export default function DetailEdit() {
 			    			<input className="form-check-input"
 			    		           type="checkbox"
 			    		           value=""
-			    		           defaultChecked={timeLimit}
-			    		           onChange={e=>setTimeLimit(!timeLimit)}
+			    		           defaultChecked={quizObject.timeLimit}
+			    		           onChange={e=>setQuizObject({...quizObject, timeLimit: !quizObject.timeLimit})}
 			    		           id="checkbox2"/>
 			    			<label className="form-check-label"
 			    		           htmlFor="checkbox2">
@@ -157,8 +182,8 @@ export default function DetailEdit() {
 			    			</label>
 			    			<input className="ms-5 me-2"
 			    		           style={{width:"45px"}}
-			    		           placeholder = {quizTime}	
-			    		           onChange= {e=> setQuizTime(e.target.value)}/>
+			    		           placeholder = {quizObject.quizTime}	
+			    		           onChange= {e=> setQuizObject({...quizObject, quizTime:e.target.value})}/>
 			    			<label >
 			    			       Minutes
 			    		    </label>
@@ -166,8 +191,8 @@ export default function DetailEdit() {
 			    		    	<input className="form-check-input"
 			    		       	   type="checkbox"
 			    		           value=""
-			    		           defaultChecked={allowMultiple}
-			    		           onChange={e=>setAllowMultiple(!allowMultiple)}
+			    		           defaultChecked={quizObject.allowMultiple}
+			    		           onChange={e=>setQuizObject({...quizObject, allowMultiple: !quizObject.allowMultiple})}
 			    		           id="checkbox3"/>
 			    				<label className="form-check-label"
 			    		           htmlFor="checkbox3">
@@ -195,8 +220,8 @@ export default function DetailEdit() {
 					        <h6 className = "pt-3"><b> Due </b></h6>
 				    		<input className="form-control"
 				    		       type="date"
-					       		   value={quizDue}
-					       		   onChange={e=>setDue(e.target.value)}/>
+					       		   value={quizObject.quizDue}
+					       		   onChange={e=>setQuizObject({...quizObject, quizDue:e.target.value})}/>
 					        <div className="row">
 	                			<div className="col-6">
 	                				<label htmlFor="wd-available-from"
@@ -206,15 +231,15 @@ export default function DetailEdit() {
 	                				<input type="date" 
 	                				       id="wd-available-from" 
 	                				       className="form-control mb-2" 
-	                				       value={available} 
-	                				       onChange={(e)=>setAvailable(e.target.value)}/>
+	                				       value={quizObject.available} 
+	                				       onChange={(e)=>setQuizObject({...quizObject, available:e.target.value})}/>
 	                			</div>
 	                			<div className="col-6">
 	                				<label htmlFor="wd-available-from"
 	                				       >
 	                				       Until: 
 	                				</label> 
-	                				<input type="date" id="wd-available-from" 	className="form-control" value={until} 	onChange={(e)=>setUntil(e.target.value)}/>
+	                				<input type="date" id="wd-available-from" 	className="form-control" value={quizObject.until} 	onChange={(e)=>setQuizObject({...quizObject, until:e.target.value})}/>
 	                			</div>
 	                		</div>			    		
 			    		</div>
@@ -240,17 +265,19 @@ export default function DetailEdit() {
 			    	</div>
 			    	{<div>
 			    		<h1> Test </h1>
-			    		{quizName}<br/>
-			    		{instructions}<br/>
-			    		{quizType}<br/>
-			    		{assignmentGroup}<br/>
-			    		{quizTime}<br/>
-			    		{quizDue}<br/>
-			    		{available}<br/>
-			    		{until}<br/>
-			    		{JSON.stringify(shuffleAnswers)}<br/>
-			    		{JSON.stringify(timeLimit)}<br/>
-			    		{JSON.stringify(allowMultiple)}<br/>
+			    		{quizObject.quizId}<br/>
+			    		{quizObject.quizName}<br/>
+			    		{quizObject.instructions}<br/>
+			    		{quizObject.quizType}<br/>
+			    		{quizObject.assignmentGroup}<br/>
+			    		{quizObject.quizTime}<br/>
+			    		{quizObject.quizDue}<br/>
+			    		{quizObject.available}<br/>
+			    		{quizObject.until}<br/>
+			    		{JSON.stringify(quizObject.shuffleAnswers)}<br/>
+			    		{JSON.stringify(quizObject.timeLimit)}<br/>
+			    		{JSON.stringify(quizObject.allowMultiple)}<br/>
+			    		
 			    	 </div>}
 			    </div>
 
