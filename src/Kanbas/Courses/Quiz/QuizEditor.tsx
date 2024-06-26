@@ -21,8 +21,8 @@ export default function QuizEditor() {
 		course:cid,
 		quizType:"",
 		assignmentGroup:"",
-		totalScore:"",
-		NumOfQuestions:"",
+		totalScore:0,
+		NumOfQuestions:0,
 		quizTime:"20",
 		quizDue:"",
 		available:"",
@@ -40,6 +40,7 @@ export default function QuizEditor() {
 		webCamRequired:"No",
 		lockQuestionsAfterAnswering:"No",
 		forEveryOne:"Everyone",
+		studentScore:0,
 		questions:[]
 	})
 

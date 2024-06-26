@@ -23,8 +23,8 @@ export default function QuestionEdit() {
 		instructions:"",
 		quizType:"",
 		assignmentGroup:"",
-		totalScore:"",
-		NumOfQuestions:"",
+		totalScore:0,
+		NumOfQuestions:0,
 		quizTime:"20",
 		quizDue:"",
 		available:"",
@@ -42,6 +42,7 @@ export default function QuestionEdit() {
 		webCamRequired:"No",
 		lockQuestionsAfterAnswering:"No",
 		forEveryOne:"Everyone",
+		studentScore:0,
 		questions:[]
 	})
 
@@ -101,8 +102,8 @@ export default function QuestionEdit() {
 								     Cancle
 							 </button>
 							 <button className="btn btn-danger ms-3"
-				        		     onClick={
-				        		     saveQuestion}
+				        		     onClick={()=>navigate(`/Kanbas/Courses/${cid}/Quizzes/${qid}`)}
+				        		     /*saveQuestion*/
 				        		     >
 									 Save
 							</button>

@@ -32,10 +32,10 @@ export default function DetailEdit() {
 		course:cid,
 		quizName:"",
 		instructions:"",
-		quizType:"",
-		assignmentGroup:"",
-		totalScore:"",
-		NumOfQuestions:"",
+		quizType:"Graded Quiz",
+		assignmentGroup:"Quizzes",
+		totalScore:0,
+		NumOfQuestions:0,
 		quizTime:"20",
 		quizDue:"",
 		available:"",
@@ -53,21 +53,28 @@ export default function DetailEdit() {
 		webCamRequired:"No",
 		lockQuestionsAfterAnswering:"No",
 		forEveryOne:"Everyone",
+		studentScore:0,
 		questions:[]
 	})
 
 	const { stateQuiz } = useSelector((state:any) => state.quizReducer)
 
 	const saveQuiz = async() => {
-		const currentQuiz = await client.createQuiz(quizObject)
-		dispatch(setCurrentQuiz(currentQuiz))
+		//const currentQuiz = await client.createQuiz(quizObject)
+		const tempquiz = {...quizObject, published:false}
+		console.log("In Detailedit tempquiz " + JSON.stringify(tempquiz))
+		await client.updateQuizById(quizObject)
+		//dispatch(setCurrentQuiz(currentQuiz))
 		navigate(`/Kanbas/Courses/${cid}/Quizzes/${quizObject.quizId}`)
 	}
 
 	const publishQuiz = async() => {
-		quizObject.published = true
-		const currentQuiz = await client.createQuiz(quizObject)
-		dispatch(setCurrentQuiz(currentQuiz))
+		//quizObject.published = true
+		const tempquiz = {...quizObject, published:true, studentScore:99}
+		//const currentQuiz = await client.createQuiz(quizObject)
+		await client.updateQuizById(tempquiz)
+		setQuizObject(tempquiz)
+		//dispatch(setCurrentQuiz(currentQuiz))
 		navigate(`/Kanbas/Courses/${cid}/Quizzes/`)
     }
 
