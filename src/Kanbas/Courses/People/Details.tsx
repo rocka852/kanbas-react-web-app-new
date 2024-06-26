@@ -35,6 +35,8 @@ export default function PeopleDetails(
 		const[firstName, lastName] = name.split(" ")
 		
 		const updatedUser = {...user, firstName, lastName}
+
+		console.log("IN modify is it new or old " + JSON.stringify(updatedUser))
 		
 		await client.updateUser(updatedUser);
 		

@@ -14,26 +14,68 @@ import { IoCheckmarkCircleSharp } from "react-icons/io5";
 
 
 import * as client from "./client"
+import { setCurrentQuiz } from "./reducer"
 
 export default function Quiz() {
 	
 	//const { quizes } = useSelector((state:any) => state.quizReducer) file deleted
 
 	const navigate = useNavigate()
+	const dispatch = useDispatch()
 	const { cid } = useParams() //RS101
 
 	const [quizes, setQuiz] = useState<any[]>([])
-	const [quizId, setQuizId] = useState("a")
+	const [qid, setQuizId] = useState("100000000000")
+	const [ quizObject, setQuizObject] = useState<any>({
+		quizId:qid,
+		course:cid,
+		quizName:"",
+		instructions:"",
+		quizType:"",
+		assignmentGroup:"",
+		totalScore:0,
+		NumOfQuestions:0,
+		quizTime:"20",
+		quizDue:"",
+		available:"",
+		until:"",
+		shuffleAnswers:true,
+		timeLimit:true,
+		allowMultiple:false,
+		published:false,
+		viewResponses:"Always",
+		showCorrectAnswers:"Immediately",
+		oneQuestionAtATime:"Yes",
+		requireRespondusLockDown:"No",
+		browser:"",
+		requireToViewQuizResults:"No",
+		webCamRequired:"No",
+		lockQuestionsAfterAnswering:"No",
+		forEveryOne:"Everyone",
+		studentScore:0,
+		questions:[]
+	})
 	
 	const fetchQuiz = async() => {
 		const quizes = await client.findAllQuiz()
 		setQuiz(quizes)
-		setQuizId(Date.now().toString())
+		//setQuizId(Date.now().toString())
+		const copy = {...quizObject, quizId:Date.now().toString()}
+		setQuizObject(copy)
 	}
+
+	const createQuiz = async() => {
+		const currentQuiz = await client.createQuiz(quizObject)
+		dispatch(setCurrentQuiz(currentQuiz))
+		navigate(`/Kanbas/Courses/${cid}/Quizzes/${quizObject.quizId}`)
+	}
+
 	useEffect(() => {
 		fetchQuiz()
 		//setQuizId(Date.now().toString())
 	},[])
+
+
 
 	return(
 		<div>
@@ -43,9 +85,11 @@ export default function Quiz() {
 				</button>
 				{/* When using Link this will append to ..RS101/Quizzes/...*/}
 				<button className="float-end btn btn-danger"
-					    onClick={() => navigate(`/Kanbas/Courses/${cid}/Quizzes/${quizId}`)}>
+					    onClick={createQuiz}>
 						<FaPlus className="me-2 mt-1"/>
-						<h6 className="float-end mt-1 me-2">Quiz</h6>
+							<h6 className="float-end mt-1 me-2">
+								Quiz
+							</h6>
 				</button>
 
 				<input className="form-control float-start w-50 mt-2 p-2"

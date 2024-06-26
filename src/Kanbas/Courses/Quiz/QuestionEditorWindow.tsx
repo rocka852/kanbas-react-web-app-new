@@ -1,12 +1,15 @@
 import { useState, useEffect} from "react"
 import { useNavigate, useLocation, useParams } from "react-router"
 import { Link } from "react-router-dom"
+import { useSelector, useDispatch } from "react-redux";
 
 import * as client from "./client";
+import { setCurrentQuiz, addQuiz } from "./reducer"
 export default function QuestionEditorWindow() {
 	const { cid, qid } = useParams()
 	const { pathname } = useLocation();
 	const navigate = useNavigate()
+	const dispatch = useDispatch()
 
 	const [ quizObject, setQuizObject] = useState<any>({
 		quizId:qid,
@@ -15,8 +18,8 @@ export default function QuestionEditorWindow() {
 		instructions:"",
 		quizType:"",
 		assignmentGroup:"",
-		totalScore:"",
-		NumOfQuestions:"",
+		totalScore:0,
+		NumOfQuestions:0,
 		quizTime:"20",
 		quizDue:"",
 		available:"",
@@ -34,11 +37,12 @@ export default function QuestionEditorWindow() {
 		webCamRequired:"No",
 		lockQuestionsAfterAnswering:"No",
 		forEveryOne:"Everyone",
+		studentScore:0,
 		questions:[]
 	})
 
 	const [quizType, setQuizType] = useState("Multiple Choice")
-	const [singleScore, setSingleScore] = useState("4")
+	const [singleScore, setSingleScore] = useState(4)
 	const [quizDescription, setQuizDescription] = useState("Description")
 	const [quizTitle, setQuizTitle] = useState("Simple Question")
 	const [answer1, setAnswer1] = useState("")
@@ -50,19 +54,42 @@ export default function QuestionEditorWindow() {
 		const quiz = await client.findQuizById(qid as string);
 		if (quiz != undefined) setQuizObject(quiz)
 	}
-
+	
 	useEffect(()=> {
-	fetchQuizes()}, [])
+	fetchQuizes()
+	}, [])
 
-	const updateQuestion = () => {
+	const updateQuestion =async () => {
+		const tempQuiz = {
+			qtitle:quizTitle,
+			qtype:quizType,
+			qscore:singleScore,
+			qdescription:quizDescription,
+			qcorrect: answer1,
+			qanswers: [answer1, answer2, answer3, answer4]
+		}
+
+		const copy = {...quizObject, questions: [...quizObject.questions, tempQuiz], NumOfQuestions: quizObject.NumOfQuestions + 1,
+		totalScore: quizObject.totalScore + tempQuiz.qscore};
+		//professor didn't use setter, because setter is delayer, instead he create a //new one then use setter, no matter it delayed ,database will update
+
+		//console.log("Copy " + JSON.stringify(copy))
+		
+		await client.updateQuizById(copy)
+		
+		/*setQuizObject((quizObject:any) => ({...quizObject, questions: [...quizObject.questions, tempQuiz], NumOfQuestions: quizObject.NumOfQuestions + 1,
+		totalScore: quizObject.totalScore + tempQuiz.qscore}))*/
+		//this is the old code doesn't work
+
+		setQuizObject(copy)
+		navigate(`/Kanbas/Courses/${cid}/Quizzes/${qid}/Questions`)
 
 	}
+
 	return (
 		<div>
 			<h1>Question Editor Window</h1>
 			
-			
-
 			<div>
 				<ul className="nav nav-tabs mt-5">
 					<li className="nav-item">
@@ -106,8 +133,8 @@ export default function QuestionEditorWindow() {
 					
 					<input className="col-sm-1"
 			    		           style={{width:"45px"}}
-			    		           placeholder = {singleScore}	
-			    		           onChange= {e=> setSingleScore(e.target.value)}/>				
+			    		           placeholder = {String(singleScore)}	
+			    		           onChange= {e=> setSingleScore(Number(e.target.value))}/>				
 			    </div>
 			    
 
@@ -185,6 +212,18 @@ export default function QuestionEditorWindow() {
 			    		</div>
 				</div>
 				
+			</div>
+			<div id="test">
+				<h1>Test</h1>
+				{JSON.stringify(quizType)}<br/>
+				{JSON.stringify(quizTitle)}<br/>
+				{JSON.stringify(quizDescription)}<br/>
+				{JSON.stringify(singleScore)}<br/>
+				{JSON.stringify(answer1)}<br/>
+				{JSON.stringify(answer2)}<br/>
+				{JSON.stringify(answer3)}<br/>
+				{JSON.stringify(answer4)}<br/>
+				{/*JSON.stringify(quizObject)*/}<br/>
 			</div>
 
 			
