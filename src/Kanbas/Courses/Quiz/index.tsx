@@ -14,6 +14,7 @@ import { IoCheckmarkCircleSharp } from "react-icons/io5";
 
 
 import * as client from "./client"
+import * as userclient from "../../Account/client"
 import { setCurrentQuiz } from "./reducer"
 
 export default function Quiz() {
@@ -23,7 +24,7 @@ export default function Quiz() {
 	const navigate = useNavigate()
 	const dispatch = useDispatch()
 	const { cid } = useParams() //RS101
-
+	const [users, setUsers] = useState<any>({})
 	const [quizes, setQuiz] = useState<any[]>([])
 	const [qid, setQuizId] = useState("100000000000")
 	const [ quizObject, setQuizObject] = useState<any>({
@@ -57,8 +58,10 @@ export default function Quiz() {
 	})
 	
 	const fetchQuiz = async() => {
+	    const users = await userclient.profile()
 		const quizes = await client.findAllQuiz()
 		setQuiz(quizes)
+		setUsers(users)
 		//setQuizId(Date.now().toString())
 		const copy = {...quizObject, quizId:Date.now().toString()}
 		setQuizObject(copy)
@@ -80,11 +83,15 @@ export default function Quiz() {
 	return(
 		<div>
 			<div id="input-and-buttons">
+				<div>
+					{users.role != "FACULTY" && <div className="alert alert-success">
+					Only FACULTY can Edit the quiz</div>}
+				</div>
 				<button className="float-end p-2 ms-1 rounded">
 					<BsThreeDotsVertical/>
 				</button>
 				{/* When using Link this will append to ..RS101/Quizzes/...*/}
-				<button className="float-end btn btn-danger"
+				<button className={`float-end btn btn-danger ${users.role != "FACULTY" ? "disabled" : ""}`}
 					    onClick={createQuiz}>
 						<FaPlus className="me-2 mt-1"/>
 							<h6 className="float-end mt-1 me-2">

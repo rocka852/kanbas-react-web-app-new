@@ -7,13 +7,14 @@ import { TiPencil } from "react-icons/ti";
 
 import { setCurrentQuiz } from "./reducer"
 import * as client from "./client";
+import * as userclient from "../../Account/client"
 
 export default function QuizEditor() {
 	const navigate = useNavigate()
 	const dispatch = useDispatch()
 
 	const { cid, qid } = useParams()
-
+	const [users, setUsers] = useState<any>({})
 	const [ quizObject, setQuizObject] = useState<any>({
 		quizId:qid,
 		quizName:"",
@@ -55,6 +56,9 @@ export default function QuizEditor() {
 		//console.log("-----+--" + JSON.stringify(quizObject.quizId))
 		//console.log("------+-" + JSON.stringify(quiz))
 		//console.log("------+-" + JSON.stringify(quizObject))
+
+		 const users = await userclient.profile()
+		 setUsers(users)
 	}
 	useEffect(()=> {
 	fetchQuizes()}, [])
@@ -65,13 +69,17 @@ export default function QuizEditor() {
 			{"This pages qid = " + qid}<br/>
 			{"QID from object = " + quizObject.quizId}*/}
 			<hr />
+			<div>
+			{users.role != "FACULTY" && <div className="alert alert-danger">
+			Only FACULTY can Edit the quiz</div>}
+			</div>
 			<div id="two buttons"
 			     className="d-flex justify-content-center">
 				<button className="btn btn-light"
 				        onClick={()=>navigate(`/Kanbas/Courses/${cid}/Quizzes/${qid}/Preview`)}>
 					Preview
 				</button>
-				<button className="btn btn-light ms-3"
+				<button className={`btn btn-light ms-3 ${users.role != "FACULTY" ? "disabled": ""}`}
 				        onClick={()=>navigate(`/Kanbas/Courses/${cid}/Quizzes/${qid}/DetailEdit`)}>
 					<TiPencil/>
 					Edit
