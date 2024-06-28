@@ -58,13 +58,18 @@ export default function Quiz() {
 	})
 	
 	const fetchQuiz = async() => {
-	    const users = await userclient.profile()
+	    
 		const quizes = await client.findAllQuiz()
+		//don't delete next line 64, this is for display the list
 		setQuiz(quizes)
-		setUsers(users)
+		
 		//setQuizId(Date.now().toString())
-		const copy = {...quizObject, quizId:Date.now().toString()}
+		const copy = {...quizes, quizId:Date.now().toString()}
 		setQuizObject(copy)
+	}
+	const fetchUser = async() => {
+		const users = await userclient.profile()
+		setUsers(users)
 	}
 
 	const createQuiz = async() => {
@@ -75,6 +80,7 @@ export default function Quiz() {
 
 	useEffect(() => {
 		fetchQuiz()
+		fetchUser()
 		//setQuizId(Date.now().toString())
 	},[])
 
