@@ -82,6 +82,7 @@ export default function Quiz() {
 
 	return(
 		<div>
+			{"TEST user= " + JSON.stringify(users)}
 			<div id="input-and-buttons">
 				<div>
 					{users.role != "FACULTY" && <div className="alert alert-success">
