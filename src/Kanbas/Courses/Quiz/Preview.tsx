@@ -40,8 +40,15 @@ export default function Preview() {
 	const fetchQuizes = async() => {
 		const quiz = await client.findQuizById(qid as string);
 		if (quiz != undefined) {
-		setQuizObject(quiz)
-		setLoads(true)
+			setQuizObject(quiz)
+			//setLoads(true)
+		}
+		if (quiz.questions.length != 0){
+			setLoads(true)
+		}
+		
+		else {
+			console.log("quiz has error")
 		}
 	}
 

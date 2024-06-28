@@ -14,6 +14,7 @@ export default function QuizEditor() {
 	const dispatch = useDispatch()
 
 	const { cid, qid } = useParams()
+	const [ quizPreview, setQuizPreview] = useState(false)
 	const [users, setUsers] = useState<any>({})
 	const [ quizObject, setQuizObject] = useState<any>({
 		quizId:qid,
@@ -63,6 +64,17 @@ export default function QuizEditor() {
 	useEffect(()=> {
 	fetchQuizes()}, [])
 
+	const preview = () => {
+		
+		if (!quizObject.quizTime) {
+			console.log("previewbutoon" + JSON.stringify(quizObject))
+			setQuizPreview(true)
+		}
+		else {
+			navigate(`/Kanbas/Courses/${cid}/Quizzes/${qid}/Preview`)
+		}
+	}
+
 	return (
 		<div>
 			{/*<h1> Quiz Editor </h1>
@@ -70,13 +82,13 @@ export default function QuizEditor() {
 			{"QID from object = " + quizObject.quizId}*/}
 			<hr />
 			<div>
-			{users.role != "FACULTY" && <div className="alert alert-danger">
-			Only FACULTY can Edit the quiz</div>}
+			{quizPreview && <div className="alert alert-success">
+			This quiz is not set yet, please edit it</div>}
 			</div>
 			<div id="two buttons"
 			     className="d-flex justify-content-center">
 				<button className="btn btn-light"
-				        onClick={()=>navigate(`/Kanbas/Courses/${cid}/Quizzes/${qid}/Preview`)}>
+				        onClick={preview}>
 					Preview
 				</button>
 				<button className={`btn btn-light ms-3 ${users.role != "FACULTY" ? "": "disabled"}`}
