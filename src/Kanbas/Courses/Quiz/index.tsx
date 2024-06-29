@@ -27,6 +27,7 @@ export default function Quiz() {
 	const [users, setUsers] = useState<any>({})
 	const [quizes, setQuiz] = useState<any[]>([])
 	const [qid, setQuizId] = useState("100000000000")
+	const [publishCount, setPublishCount] = useState(0)
 	const [ quizObject, setQuizObject] = useState<any>({
 		quizId:qid,
 		course:cid,
@@ -78,11 +79,21 @@ export default function Quiz() {
 		navigate(`/Kanbas/Courses/${cid}/Quizzes/${quizObject.quizId}`)
 	}
 
+	const goPublish = async (quiz:any) => {
+		const thisQuiz = {...quiz, published: !quiz.published}
+		const thePublishedQuiz = await client.updateQuizById(thisQuiz)
+		setPublishCount(publishCount => publishCount + 1)
+	}
+
 	useEffect(() => {
 		fetchQuiz()
 		fetchUser()
 		//setQuizId(Date.now().toString())
 	},[])
+
+	
+	useEffect(() => {
+	fetchQuiz()}, [publishCount])
 
 
 
@@ -93,6 +104,10 @@ export default function Quiz() {
 				<div>
 					{users.role != "FACULTY" && <div className="alert alert-success">
 					Only FACULTY can Edit the quiz</div>}
+
+					{/*<div className="alert alert-success">
+					Click Published Quiz will nevigate to Question<br/>
+					Click Unpublished Quiz will nevigate to Preview</div>*/}
 				</div>
 				<button className="float-end p-2 ms-1 rounded">
 					<BsThreeDotsVertical/>
@@ -126,25 +141,60 @@ export default function Quiz() {
 			<div id="quizcontent">
 				<ul className = "list-group rounded-0">
 				{
-					quizes.filter((quiz:any) => (quiz.course === cid && quiz.published))      
+					quizes.filter((quiz:any) => (quiz.course === cid))      
 					      .map((quiz: any) => (
 						       <li className="list-group-item p-3 border">
 						       		<div id="allcontentline">
-						       			<Link to={`/Kanbas/Courses/${cid}/Quizzes/${quiz.quizId}`}
-						       			      className="text-dark">
+						       			
 						       			<GiRocketThruster className="text-success me-3 mt-3 float-start"/>
-						       			<div id="quizdescription" 
-						       			     className="float-start">
-						       			     <div className="row ms-2">
-						       				 	<h5>{quiz.quizName?  quiz.quizName : "Unnamed Quiz"}</h5>
-						       				 </div>	
-						       				 <div className="row ms-2">
-						       				 	{<h6><b>{quiz.available ? "Available: ": "Closed"}</b> {quiz.available} | <b>Due</b>: <span className="text-danger">{quiz.quizDue ? quiz.quizDue : "Multiple Dates"}</span> | {quiz.totalScore ? quiz.totalScore : 0} pts | {quiz.NumOfQuestions ? quiz.NumOfQuestions : 0} Questions</h6>}
-						       				 </div>
-						       			</div>
-						       			<BsThreeDotsVertical className="text-success float-end mt-3 me-2"/>
-						       			<IoCheckmarkCircleSharp className="text-success float-end mt-3 me-3"/>
+						       			<Link  to={`/Kanbas/Courses/${cid}/Quizzes/${quiz.quizId}`}
+						       			 
+						       			      className="text-dark">
+						       				
+						       				<div id="quizdescription" 
+						       				     className="float-start">
+						       				     <div className="row ms-2">
+						       					 	<h5>{quiz.quizName?  quiz.quizName : 	"Unnamed Quiz"}</h5>
+						       					 </div>	
+						       					 <div className="row ms-2">
+						       					 	{<h6><b>{quiz.available ? "Available: 	": "Closed"}</b> {quiz.available} | <b	>Due</b>: <span 	className="text-danger">{quiz.quizDue 	? quiz.quizDue : "Multiple 	Dates"}</span> | {quiz.totalScore ? 	quiz.totalScore : 0} pts | 	{quiz.NumOfQuestions ? 	quiz.NumOfQuestions : 0} 	Questions</h6>}
+						       					 </div>
+						       				</div>
 						       			</Link>
+
+						       			<div className="dropdown d-inline">
+						       				<button className="btn float-end"
+						       				type = "button"
+						       				data-bs-toggle="dropdown">
+						       					<BsThreeDotsVertical className="text-success mt-2 me-2"/>
+						       				</button>
+						       				
+						       				<ul className="dropdown-menu">
+						       					<li>
+						       						<Link to={`/Kanbas/Courses/${cid}/Quizzes/${quiz.quizId}`}
+						       						   className="dropdown-item">
+						       						Edit
+						       						</Link>
+						       					</li>
+						       					<li>
+						       						<div className="dropdown-item"
+						       						     onClick={()=>goPublish(quiz)}>
+						       						Publish
+						       						</div>
+						       					</li>
+						       					<li>
+						       						<div className="dropdown-item">
+						       						Delete
+						       						</div>
+						       					</li>
+						       					
+						       				</ul>
+						       				
+						       			</div>
+						       			
+						       			<IoCheckmarkCircleSharp 
+						       			className={`float-end mt-3 me-3 ${quiz.published ? "text-success" : "text-secondary"}`}/>
+						       			
 						       		</div>
 						       </li>
 					       ))
@@ -156,7 +206,8 @@ export default function Quiz() {
 			{/*<h1>Test</h1>*/}
 			{/*JSON.stringify(quizes)*/}
 			{/*use quiz will report error says quiz is not a react child*/}
-
+			{":"+ JSON.stringify(quizObject.pushlished)}
+			{":"+ JSON.stringify(publishCount)}
 
 		</div>
 	)
