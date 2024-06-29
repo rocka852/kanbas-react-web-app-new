@@ -105,13 +105,13 @@ export default function Quiz() {
 					{users.role != "FACULTY" && <div className="alert alert-success">
 					Only FACULTY can Edit the quiz</div>}
 
-					{/*<div className="alert alert-success">
-					Click Published Quiz will nevigate to Question<br/>
-					Click Unpublished Quiz will nevigate to Preview</div>*/}
+					{<div className="alert alert-success">
+					Published Quiz is clickable, please check 3 dots to publish or edit
+					</div>}
 				</div>
-				<button className="float-end p-2 ms-1 rounded">
+				{/*<button className="float-end p-2 ms-1 rounded">
 					<BsThreeDotsVertical/>
-				</button>
+				</button>*/}
 				{/* When using Link this will append to ..RS101/Quizzes/...*/}
 				<button className={`float-end btn btn-danger ${users.role != "FACULTY" ? "" : "disabled"}`}
 					    onClick={createQuiz}>
@@ -147,7 +147,7 @@ export default function Quiz() {
 						       		<div id="allcontentline">
 						       			
 						       			<GiRocketThruster className="text-success me-3 mt-3 float-start"/>
-						       			<Link  to={`/Kanbas/Courses/${cid}/Quizzes/${quiz.quizId}`}
+						       			<Link  to={`${quiz.published ? `/Kanbas/Courses/${cid}/Quizzes/${quiz.quizId}`: ""}`}
 						       			 
 						       			      className="text-dark">
 						       				
