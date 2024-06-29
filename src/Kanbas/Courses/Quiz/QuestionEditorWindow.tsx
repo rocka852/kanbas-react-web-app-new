@@ -60,6 +60,7 @@ export default function QuestionEditorWindow() {
 	}, [])
 
 	const updateQuestion =async () => {
+
 		const tempQuiz = {
 			qtitle:quizTitle,
 			qtype:quizType,
@@ -202,9 +203,10 @@ export default function QuestionEditorWindow() {
 								   className="col-sm-2"
 								   type="radio"
 								   name="gridRadios"
-			    		           value = {"true"}
-			    		           	
-			    		           onChange= {e=> setAnswer1(e.target.value)
+			    		           value = {answer1}
+			   	
+			    		           onClick= {()=>{
+			    		                          setAnswer1("true")}
 			    		           }/>	
 			    		    <label htmlFor="r5"
 					       		   className="col-sm-3 col-form-label">
@@ -213,14 +215,14 @@ export default function QuestionEditorWindow() {
 				    	</div>
 				    	
 				    	<div className="row mt-2">
-				    		<input id="r5"
+				    		<input id="r6"
 								   className="col-sm-2"
 								   type="radio"
 								   name="gridRadios"
-			    		           value = {"false"}
-			    		           checked	
-			    		           onChange= {e=> setAnswer1(e.target.value)}/>	
-			    		    <label htmlFor="r5"
+			    		           value = {answer1}
+			    		           	
+			    		           onClick= {()=>setAnswer1("false")}/>	
+			    		    <label htmlFor="r6"
 					       		   className="col-sm-3 col-form-label">
 					               False
 							</label>

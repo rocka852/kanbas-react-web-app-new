@@ -95,7 +95,7 @@ export default function Preview() {
 						</div>
 
 						<ul className = "list-group rounded-0">
-						{	loads ?
+						{	loads && quizObject.questions[count-1].qtype === "Multiple Choice" &&
 							quizObject.questions[count-1].qanswers.map((item:any) => (
 								<li className="list-group-item">
 									<div className="form-check">
@@ -107,7 +107,45 @@ export default function Preview() {
 									    </label>
 									</div>
 								</li>
-							)) : "No More Data"
+							)) 
+						}
+						{
+							loads && quizObject.questions[count-1].qtype === "True false question" &&
+							<div>
+								<li className="list-group-item">
+									<div className="form-check">
+										<input className="form-check-input"
+									           value="A"
+									           type="checkbox"/>
+									    <label className="form-check-label">
+										    True
+									    </label>
+									</div>
+								</li>
+								<li className="list-group-item">
+									<div className="form-check">
+										<input className="form-check-input"
+									           value="A"
+									           type="checkbox"/>
+									    <label className="form-check-label">
+										    False
+									    </label>
+									</div>
+								</li>
+							</div> 
+						}
+
+						{
+							loads && quizObject.questions[count-1].qtype === "Fill in blanks" && 
+							<div>
+								<textarea className="form-control mt-2"
+				      				   placeholder="Please enter your answer"
+				       				   />
+							</div>
+						}
+
+						{
+							!loads && <h4>No more data</h4>
 						}
 						</ul>
 						<div>
@@ -125,6 +163,9 @@ export default function Preview() {
 				{JSON.stringify(quizObject.quizId)}<br/>
 				{JSON.stringify(quizObject.questions)}<br/>
 			</div>*/}
+			<div>
+			{/*":"+JSON.stringify(quizObject.questions[count-1].qtype)*/}
+			</div>
 		</div>
 	)
 
