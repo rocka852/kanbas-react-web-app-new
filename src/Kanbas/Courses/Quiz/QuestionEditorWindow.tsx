@@ -115,10 +115,10 @@ export default function QuestionEditorWindow() {
 					      	
 					      	onChange={e=>setQuizType(e.target.value)}>
 					      	
-					      	<option value ={quizType} 
+					      	<option value ="Multiple Choice" 
 					      	            selected
 					      	            >
-					      	            {quizType}
+					      	            Multiple Choice
 					      	</option>
 					      	<option value="True false question"
 					      	            >
@@ -151,7 +151,7 @@ export default function QuestionEditorWindow() {
 				</div>
 				<div id="answer" className="mt-3">
 				    <h4> Answers: </h4>
-				    <div id="answerlist">
+				    {quizType === "Multiple Choice" && <div id="answerlist">
 				    	<div className="row">
 				    		<label htmlFor="r1"
 					       		   className="col-sm-3 col-form-label text-end text-danger">
@@ -192,7 +192,85 @@ export default function QuestionEditorWindow() {
 			    		           placeholder = {answer4}	
 			    		           onChange= {e=> setAnswer4(e.target.value)}/>	
 				    	</div>
-				    </div>
+				    </div>}
+
+				    {quizType === "True false question" && <div id="answerlist"
+				                                                className="">
+				    	<div className="row">
+				    		
+							<input id="r5"
+								   className="col-sm-2"
+								   type="radio"
+								   name="gridRadios"
+			    		           value = {"true"}
+			    		           	
+			    		           onChange= {e=> setAnswer1(e.target.value)
+			    		           }/>	
+			    		    <label htmlFor="r5"
+					       		   className="col-sm-3 col-form-label">
+					               True 
+							</label>
+				    	</div>
+				    	
+				    	<div className="row mt-2">
+				    		<input id="r5"
+								   className="col-sm-2"
+								   type="radio"
+								   name="gridRadios"
+			    		           value = {"false"}
+			    		           checked	
+			    		           onChange= {e=> setAnswer1(e.target.value)}/>	
+			    		    <label htmlFor="r5"
+					       		   className="col-sm-3 col-form-label">
+					               False
+							</label>
+				    	</div>
+				    	
+				    </div>}
+
+				    {quizType === "Fill in blanks" && <div id="answerlist">
+				    	<div className="row">
+				    		<label htmlFor="r1"
+					       		   className="col-sm-3 col-form-label text-end text-danger">
+					               Correct Answer: 
+							</label>
+							<input id="r1"
+								   className="col-sm-5 form-control w-50"
+			    		           placeholder = {answer1}	
+			    		           onChange= {e=> setAnswer1(e.target.value)}/>	
+				    	</div>
+				    	<div className="row mt-2">
+				    		<label htmlFor="r2"
+					       		   className="col-sm-3 col-form-label text-end">
+					               Possilble Answer: 
+							</label>
+							<input id="r2"
+								   className="col-sm-5 form-control w-50"
+			    		           placeholder = {answer2}	
+			    		           onChange= {e=> setAnswer2(e.target.value)}/>	
+				    	</div>
+				    	<div className="row mt-2">
+				    		<label htmlFor="r3"
+					       		   className="col-sm-3 col-form-label text-end">
+					               Possilble Answer: 
+							</label>
+							<input id="r3"
+								   className="col-sm-5 form-control w-50"
+			    		           placeholder = {answer3}	
+			    		           onChange= {e=> setAnswer3(e.target.value)}/>	
+				    	</div>
+				    	<div className="row mt-2">
+				    		<label htmlFor="r4"
+					       		   className="col-sm-3 col-form-label text-end">
+					               Possilble Answer: 
+							</label>
+							<input id="r4"
+								   className="col-sm-5 form-control w-50"
+			    		           placeholder = {answer4}	
+			    		           onChange= {e=> setAnswer4(e.target.value)}/>	
+				    	</div>
+				    </div>}
+
 				</div>
 				<div id="buttons"
 				     className="mt-5">
