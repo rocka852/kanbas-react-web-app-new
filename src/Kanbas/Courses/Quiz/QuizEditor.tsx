@@ -85,13 +85,17 @@ export default function QuizEditor() {
 			{quizPreview && <div className="alert alert-success">
 			This quiz is not set yet, please edit it</div>}
 			</div>
+			<div>
+				{users.role != "FACULTY" && <div className="alert alert-success">
+				Only FACULTY can Edit the quiz</div>}
+			</div>
 			<div id="two buttons"
 			     className="d-flex justify-content-center">
 				<button className="btn btn-light"
 				        onClick={preview}>
 					Preview
 				</button>
-				<button className={`btn btn-light ms-3 ${users.role != "FACULTY" ? "": "disabled"}`}
+				<button className={`btn btn-light ms-3 ${users.role != "FACULTY" ? "disabled": ""}`}
 				        onClick={()=>navigate(`/Kanbas/Courses/${cid}/Quizzes/${qid}/DetailEdit`)}>
 					<TiPencil/>
 					Edit
