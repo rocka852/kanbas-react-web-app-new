@@ -98,7 +98,7 @@ export default function Quiz() {
 					<BsThreeDotsVertical/>
 				</button>
 				{/* When using Link this will append to ..RS101/Quizzes/...*/}
-				<button className={`float-end btn btn-danger ${users.role != "FACULTY" ? "disabled" : ""}`}
+				<button className={`float-end btn btn-danger ${users.role != "FACULTY" ? "" : "disabled"}`}
 					    onClick={createQuiz}>
 						<FaPlus className="me-2 mt-1"/>
 							<h6 className="float-end mt-1 me-2">

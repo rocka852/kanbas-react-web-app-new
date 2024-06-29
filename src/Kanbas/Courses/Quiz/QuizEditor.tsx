@@ -95,7 +95,7 @@ export default function QuizEditor() {
 				        onClick={preview}>
 					Preview
 				</button>
-				<button className={`btn btn-light ms-3 ${users.role != "FACULTY" ? "disabled": ""}`}
+				<button className={`btn btn-light ms-3 ${users.role != "FACULTY" ? "": "disabled"}`}
 				        onClick={()=>navigate(`/Kanbas/Courses/${cid}/Quizzes/${qid}/DetailEdit`)}>
 					<TiPencil/>
 					Edit
