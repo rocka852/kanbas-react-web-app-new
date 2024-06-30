@@ -7,6 +7,9 @@ export default function Preview() {
 	const { cid, qid } = useParams()
 	const [ count, setCount] = useState(1)
 	const [ loads, setLoads] = useState(false)
+	const [ thisAnswer, setThisAnswer] = useState("")
+	const [ isCorrect, setIsCorrect] = useState(true)
+	const [ checkOnce, setCheckOnce] = useState(true)
 	const [ quizObject, setQuizObject] = useState<any>({
 		quizId:qid,
 		course:cid,
@@ -50,6 +53,7 @@ export default function Preview() {
 		else {
 			console.log("quiz has error")
 		}
+		setCheckOnce(true)
 	}
 
 	const buttonnext = () => {
@@ -63,6 +67,24 @@ export default function Preview() {
 		else {
 			console.log("in else" + count)
 			setLoads(false)
+		}
+		setCheckOnce(true)
+	}
+
+	const buttoncheck = () => {
+		const temp = quizObject.questions[count-1]
+		//alert(":" + JSON.stringify(temp))
+				
+		if (temp && thisAnswer == temp.qcorrect) {
+			//alert("correct")
+			setIsCorrect(true)
+			setCheckOnce(false)
+			setQuizObject({...quizObject, studentScore: quizObject.studentScore + temp.qscore})
+		}
+		else if(temp && thisAnswer != temp.qcorrect) {
+			//alert("wrong")
+			setIsCorrect(false)
+			setCheckOnce(false)
 		}
 	}
 	
@@ -100,10 +122,25 @@ export default function Preview() {
 								<li className="list-group-item">
 									<div className="form-check">
 										<input className="form-check-input"
-									           value="A"
-									           type="checkbox"/>
-									    <label className="form-check-label">
-										    {item}
+									           value={item}
+									           type="radio"
+									           name="gridRadios"
+									           onClick={()=>setThisAnswer(item)}/>
+									    <label className={`form-check-label`}>
+										    <h5 className="ms-2 me-3">
+										    	{item}
+										    	
+										    	<span className="ms-3 bg-success">
+										    		{!checkOnce && isCorrect && item == thisAnswer? "Correct": ""}
+										    	</span>
+										    	<span className="ms-2 bg-danger">
+										    		{!checkOnce && !isCorrect && item == thisAnswer? "Wrong": ""}
+										    	</span>
+										    	<span className="ms-3 bg-success">
+										    		{!checkOnce && !isCorrect && item == quizObject.questions[count-1].qcorrect? "Correct": ""}
+										    	</span>
+										    	
+										    </h5>
 									    </label>
 									</div>
 								</li>
@@ -154,6 +191,11 @@ export default function Preview() {
 				        		     >
 									 Next
 							</button>
+							<button className={`btn btn-success mt-3 ${checkOnce ? "" : "disabled"}`}
+				        		     onClick={buttoncheck}
+				        		     >
+									 Check
+							</button>
 						</div>
 				</div>
 			</div>
@@ -165,6 +207,7 @@ export default function Preview() {
 			</div>*/}
 			<div>
 			{/*":"+JSON.stringify(quizObject.questions[count-1].qtype)*/}
+			{"student:" + JSON.stringify(quizObject.studentScore)}
 			</div>
 		</div>
 	)

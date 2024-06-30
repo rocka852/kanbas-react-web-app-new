@@ -70,7 +70,7 @@ export default function DetailEdit() {
 
 	const publishQuiz = async() => {
 		//quizObject.published = true
-		const tempquiz = {...quizObject, published:true, studentScore:99}
+		const tempquiz = {...quizObject, published:true}
 		//const currentQuiz = await client.createQuiz(quizObject)
 		await client.updateQuizById(tempquiz)
 		setQuizObject(tempquiz)
